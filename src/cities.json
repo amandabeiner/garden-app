@@ -1,0 +1,22 @@
+[
+  { "name": "Cambridge",
+    "id": 1,
+    "description": "There are 15 active community gardens located throught the City, serving as areas of beautification, vegetable production, and meeting places. The gardens are divided into plots and shared by groups of residents. The Cambridge Conservation Commission encourages the formation and continuance of community gardens. Residents interested in participating in the community gardens program should review the city garden policy and submit an application \n\nAll applications will be processed in the order they are received and added to the appropriate waitlist.  Applicants will only be contacted when a plot becomes available for their use. Please be aware that the wait may be in excess of 2 years.",
+    "gardens": [
+      {"name": "William G. Maher Community Garden"},
+      {"name": "Fresh Pond Reservation/Parkway Garden"},
+      {"name": "McMath Park Community Garden"},
+      {"name": "Corocoran Park Community Garden"},
+      {"name": "Sacramento Street Community Garden"},
+      {"name": "Field of Dreams Garden"},
+      {"name": "Green Street Neighborhood Garden"},
+      {"name": "Peggy Hayes Memorial Garden"},
+      {"name": "Emily Garden"},
+      {"name": "Squirrel Brand Community Garden"},
+      {"name": "Moore Street Community Garden"},
+      {"name": "Costa Lopez Taylor Park Community Garden"},
+      {"name": "Riverside Press Park Community Garden"},
+      {"name": "Hurley Street Community Garden"}
+    ]
+  }
+]
