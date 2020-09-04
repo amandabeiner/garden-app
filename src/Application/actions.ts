@@ -1,25 +1,7 @@
-export const updateName = (payload: string): ApplicationAction => {
-  return { type: ActionType.NAME_UPDATE, payload };
-};
+import { PersonalInfo } from './reducer';
 
-export const updateAddress1 = (payload: string): ApplicationAction => {
-  return { type: ActionType.ADDRESS_1_UPDATE, payload };
-};
-
-export const updateAddress2 = (payload: string): ApplicationAction => {
-  return { type: ActionType.ADDRESS_2_UPDATE, payload };
-};
-
-export const updateZip = (payload: string): ApplicationAction => {
-  return { type: ActionType.ZIP_UPDATE, payload };
-};
-
-export const updateEmail = (payload: string): ApplicationAction => {
-  return { type: ActionType.EMAIL_UPDATE, payload };
-};
-
-export const updatePhone = (payload: string): ApplicationAction => {
-  return { type: ActionType.PHONE_UPDATE, payload };
+export const savePersonalInfo = (payload: PersonalInfo): ApplicationAction => {
+  return { type: ActionType.SAVE_PERSONAL_INFO, payload };
 };
 
 export const toggleLacksGardenSpace = (): ApplicationAction => {
@@ -72,12 +54,7 @@ export const signedAgreement = (payload: boolean): ApplicationAction => {
 };
 
 export enum ActionType {
-  NAME_UPDATE,
-  ADDRESS_1_UPDATE,
-  ADDRESS_2_UPDATE,
-  ZIP_UPDATE,
-  EMAIL_UPDATE,
-  PHONE_UPDATE,
+  SAVE_PERSONAL_INFO,
   LACKS_GARDEN_SPACE_TOGGLE,
   HAD_CAMBRIDGE_PLOT_TOGGLE,
   CAMBRIDGE_PLOT_LOCATION_UPDATE,
@@ -92,12 +69,7 @@ export enum ActionType {
 }
 
 export type ApplicationAction =
-  | { type: ActionType.NAME_UPDATE; payload: string }
-  | { type: ActionType.ADDRESS_1_UPDATE; payload: string }
-  | { type: ActionType.ADDRESS_2_UPDATE; payload: string }
-  | { type: ActionType.ZIP_UPDATE; payload: string }
-  | { type: ActionType.EMAIL_UPDATE; payload: string }
-  | { type: ActionType.PHONE_UPDATE; payload: string }
+  | { type: ActionType.SAVE_PERSONAL_INFO; payload: PersonalInfo }
   | { type: ActionType.LACKS_GARDEN_SPACE_TOGGLE }
   | { type: ActionType.HAD_CAMBRIDGE_PLOT_TOGGLE }
   | { type: ActionType.CAMBRIDGE_PLOT_YEAR_UPDATE; payload: string }

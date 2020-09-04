@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useRef } from 'react';
-import { useApplication } from './ApplicationContext';
+import { Formik, FormikErrors, FormikTouched } from 'formik';
+import { initialState, Application, PersonalInfo } from './reducer';
 import {
   Text,
   TextInput,
@@ -8,23 +9,38 @@ import {
   View,
   ScrollView,
 } from 'react-native';
-import tailwind from 'tailwind-rn';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ApplicationStepList } from '.';
-import * as Actions from './actions';
 import { Typography, Spacing, Forms, Colors } from '../styles/index';
 import { Button } from '../common/Button';
+import * as schema from './schema';
+import { Label } from '../common/Label';
+import { savePersonalInfo } from './actions';
+import { useNavigation } from '@react-navigation/native';
 
 type NavigationProps = StackNavigationProp<ApplicationStepList, 'Person'>;
 type Props = { navigation: NavigationProps };
 
-export const Person: FunctionComponent<Props> = ({ navigation }) => {
-  const [state, dispatch] = useApplication();
+export const Person: FunctionComponent<Props> = () => {
+  const navigation = useNavigation();
   const secondInput = useRef<TextInput>();
   const thirdInput = useRef<TextInput>();
   const fourthInput = useRef<TextInput>();
   const fifthInput = useRef<TextInput>();
   const sixthInput = useRef<TextInput>();
+
+  const hasError = (
+    field: keyof Application,
+    errors: FormikErrors<Application>,
+    touched: FormikTouched<Application>,
+  ): boolean => {
+    return Boolean(Boolean(errors[field] && touched[field]));
+  };
+
+  const saveAndProceed = (values: PersonalInfo) => {
+    savePersonalInfo(values);
+    navigation.navigate('History');
+  };
 
   return (
     <SafeAreaView style={style.container}>
@@ -33,87 +49,157 @@ export const Person: FunctionComponent<Props> = ({ navigation }) => {
           We need a little information about you. Please be sure to provide
           accurate information so that we can contact you.
         </Text>
-        <Text style={style.label}>Your name</Text>
-        <TextInput
-          style={style.input}
-          value={state.name}
-          returnKeyType="next"
-          onChangeText={(t) => dispatch(Actions.updateName(t))}
-          onSubmitEditing={() => secondInput.current.focus()}
-        />
-        <View style={style.inputGroup}>
-          <View style={style.address1}>
-            <Text style={style.label}>Address 1</Text>
-            <TextInput
-              value={state.address1}
-              returnKeyType="next"
-              onChangeText={(t) => dispatch(Actions.updateAddress1(t))}
-              style={style.input}
-              ref={secondInput}
-              onSubmitEditing={() => thirdInput.current.focus()}
-            />
-          </View>
-          <View>
-            <Text style={style.label}>Apt / Suite / Floor</Text>
-            <TextInput
-              value={state.address2}
-              onChangeText={(t) => dispatch(Actions.updateAddress2(t))}
-              returnKeyType="next"
-              style={style.input}
-              ref={thirdInput}
-              onSubmitEditing={() => fourthInput.current.focus()}
-            />
-          </View>
-        </View>
-        <View style={style.inputGroup}>
-          <View style={style.inputGroupElement}>
-            <Text style={style.label}>City</Text>
-            <TextInput
-              value="Cambridge"
-              editable={false}
-              style={style.disabledInput}
-            />
-          </View>
-          <View style={style.inputGroupElement}>
-            <Text style={style.label}>State</Text>
-            <TextInput
-              value="MA"
-              editable={false}
-              style={style.disabledInput}
-            />
-          </View>
-          <View style={style.inputGroupElement}>
-            <Text style={style.label}>Zip</Text>
-            <TextInput
-              value={state.zip}
-              onChangeText={(t) => dispatch(Actions.updateZip(t))}
-              style={style.input}
-              keyboardType="numeric"
-              returnKeyType="next"
-              ref={fourthInput}
-              onSubmitEditing={() => fifthInput.current.focus()}
-            />
-          </View>
-        </View>
-        <Text style={style.label}>Email</Text>
-        <TextInput
-          value={state.email}
-          onChangeText={(t) => dispatch(Actions.updateEmail(t))}
-          style={style.input}
-          returnKeyType="next"
-          ref={fifthInput}
-          onSubmitEditing={() => sixthInput.current.focus()}
-        />
-        <Text>Phone</Text>
-        <TextInput
-          value={state.phone}
-          onChangeText={(t) => dispatch(Actions.updatePhone(t))}
-          style={style.input}
-          ref={sixthInput}
-        />
-        <View style={style.footer}>
-          <Button label="Next" onPress={() => navigation.navigate('History')} />
-        </View>
+        <Formik
+          initialValues={initialState}
+          onSubmit={(values) => {
+            saveAndProceed(values);
+          }}
+          validateOnBlur
+          validationSchema={schema.personSchema}>
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+            isValid,
+            dirty,
+          }) => {
+            const showError = (name: keyof Application): boolean => {
+              return hasError(name, errors, touched);
+            };
+            return (
+              <>
+                <View style={style.inputWrapper}>
+                  <Label text="Your name" hasError={showError('name')} />
+                  <TextInput
+                    style={[style.input, showError('name') && style.inputError]}
+                    value={values.name}
+                    returnKeyType="next"
+                    onChangeText={handleChange('name')}
+                    onBlur={handleBlur('name')}
+                    onSubmitEditing={() => secondInput.current.focus()}
+                  />
+                  {showError('name') && (
+                    <Text style={style.errorMessage}>{errors.name}</Text>
+                  )}
+                </View>
+                <View style={style.inputGroup}>
+                  <View style={style.address1}>
+                    <Label text="Street" hasError={showError('address1')} />
+                    <TextInput
+                      value={values.address1}
+                      returnKeyType="next"
+                      onChangeText={handleChange('address1')}
+                      onBlur={handleBlur('address1')}
+                      style={[
+                        style.input,
+                        showError('address1') && style.inputError,
+                      ]}
+                      ref={secondInput}
+                      onSubmitEditing={() => thirdInput.current.focus()}
+                    />
+                    {showError('address1') && (
+                      <Text style={style.errorMessage}>{errors.address1}</Text>
+                    )}
+                  </View>
+                  <View>
+                    <Label
+                      text="Apt / Suite / Floor"
+                      hasError={showError('address2')}
+                    />
+                    <TextInput
+                      value={values.address2}
+                      onChangeText={handleChange('address2')}
+                      onBlur={handleBlur('address2')}
+                      returnKeyType="next"
+                      style={[
+                        style.input,
+                        showError('address2') && style.inputError,
+                      ]}
+                      ref={thirdInput}
+                      onSubmitEditing={() => fourthInput.current.focus()}
+                    />
+                  </View>
+                </View>
+                <View style={style.inputGroup}>
+                  <View style={style.inputGroupElement}>
+                    <Label text="City" />
+                    <TextInput
+                      value="Cambridge"
+                      editable={false}
+                      style={style.disabledInput}
+                    />
+                  </View>
+                  <View style={style.inputGroupElement}>
+                    <Label text="State" />
+                    <TextInput
+                      value="MA"
+                      editable={false}
+                      style={style.disabledInput}
+                    />
+                  </View>
+                  <View style={style.inputGroupElement}>
+                    <Label text="Zip" hasError={showError('zip')} />
+                    <TextInput
+                      value={values.zip}
+                      onChangeText={handleChange('zip')}
+                      onBlur={handleBlur('zip')}
+                      style={[
+                        style.input,
+                        showError('zip') && style.inputError,
+                      ]}
+                      keyboardType="numeric"
+                      returnKeyType="next"
+                      ref={fourthInput}
+                      onSubmitEditing={() => fifthInput.current.focus()}
+                    />
+                    {touched.zip && errors.zip && (
+                      <Text style={style.errorMessage}>{errors.zip}</Text>
+                    )}
+                  </View>
+                </View>
+                <View style={style.inputWrapper}>
+                  <Label text="Email" hasError={showError('email')} />
+                  <TextInput
+                    value={values.email}
+                    onChangeText={handleChange('email')}
+                    onBlur={handleBlur('email')}
+                    style={[
+                      style.input,
+                      showError('email') && style.inputError,
+                    ]}
+                    returnKeyType="next"
+                    ref={fifthInput}
+                    onSubmitEditing={() => sixthInput.current.focus()}
+                  />
+                  {showError('email') && (
+                    <Text style={style.errorMessage}>{errors.email}</Text>
+                  )}
+                </View>
+                <Label text="Phone" hasError={showError('phone')} />
+                <TextInput
+                  value={values.phone}
+                  onChangeText={handleChange('phone')}
+                  onBlur={handleBlur('phone')}
+                  style={[style.input, showError('phone') && style.inputError]}
+                  ref={sixthInput}
+                />
+                {showError('phone') && (
+                  <Text style={style.errorMessage}>{errors.phone}</Text>
+                )}
+                <View style={style.footer}>
+                  <Button
+                    label="Next"
+                    onPress={handleSubmit}
+                    disabled={!isValid || !dirty}
+                  />
+                </View>
+              </>
+            );
+          }}
+        </Formik>
       </ScrollView>
     </SafeAreaView>
   );
@@ -128,20 +214,26 @@ const style = StyleSheet.create({
     ...Typography.mainContent,
     paddingBottom: Spacing.medium,
   },
-  label: {
-    ...Typography.label,
-    paddingLeft: Spacing.xxxSmall,
-  },
   input: {
     ...Forms.textInputFormField,
-    marginBottom: Spacing.small,
+  },
+  inputError: {
+    borderColor: Colors.primaryRed,
+  },
+  inputWrapper: {
+    marginBottom: Spacing.xSmall,
   },
   inputGroup: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: Spacing.xSmall,
   },
   inputGroupElement: {
     minWidth: '30%',
+  },
+  errorMessage: {
+    ...Typography.error,
+    paddingLeft: Spacing.xxxSmall,
   },
   address1: {
     flex: 1,
@@ -157,24 +249,3 @@ const style = StyleSheet.create({
     marginTop: Spacing.medium,
   },
 });
-
-type InputProps = {
-  value: string;
-  onChangeText: (t: string) => void;
-};
-
-const Input = React.forwardRef<any, InputProps>(
-  ({ value, onChangeText }, ref) => {
-    const { currentRef, nextRef } = ref;
-    return (
-      <TextInput
-        value={value}
-        onChangeText={onChangeText}
-        returnKeyType="next"
-        ref={currentRef}
-        onSubmitEditing={nextRef.current.focus()}
-        style={tailwind('border border-gray-600')}
-      />
-    );
-  },
-);

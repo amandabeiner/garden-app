@@ -20,23 +20,22 @@ export type Application = {
   signedAgreement: boolean;
 };
 
+export type PersonalInfo = {
+  name: string;
+  address1: string;
+  address2: string | null;
+  zip: string;
+  email: string;
+  phone: string;
+};
+
 export const applicationReducer = (
   state: Application,
   action: ApplicationAction,
 ) => {
   switch (action.type) {
-    case ActionType.NAME_UPDATE:
-      return { ...state, name: action.payload };
-    case ActionType.ADDRESS_1_UPDATE:
-      return { ...state, address1: action.payload };
-    case ActionType.ADDRESS_2_UPDATE:
-      return { ...state, address2: action.payload };
-    case ActionType.ZIP_UPDATE:
-      return { ...state, zip: action.payload };
-    case ActionType.EMAIL_UPDATE:
-      return { ...state, email: action.payload };
-    case ActionType.PHONE_UPDATE:
-      return { ...state, phone: action.payload };
+    case ActionType.SAVE_PERSONAL_INFO:
+      return { ...state, ...action.payload };
     case ActionType.LACKS_GARDEN_SPACE_TOGGLE:
       return { ...state, lacksGardenSpace: !state.lacksGardenSpace };
     case ActionType.HAD_CAMBRIDGE_PLOT_TOGGLE:
