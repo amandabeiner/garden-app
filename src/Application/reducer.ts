@@ -29,12 +29,26 @@ export type PersonalInfo = {
   phone: string;
 };
 
+export type HistoryInfo = {
+  lacksGardenSpace: boolean;
+  hadPlotInCambridge: boolean;
+  cambridgePlotLocation: string | null;
+  cambridgePlotYear: string | null;
+  hadNonCambridgePlot: boolean;
+  nonCambridgePlotLocation: string | null;
+  nonCambridgePlotYear: string | null;
+  requiresAccessiblePlot: boolean;
+  volunteersToCoordinate: boolean;
+};
+
 export const applicationReducer = (
   state: Application,
   action: ApplicationAction,
 ) => {
   switch (action.type) {
     case ActionType.SAVE_PERSONAL_INFO:
+      return { ...state, ...action.payload };
+    case ActionType.SAVE_HISTORY_INFO:
       return { ...state, ...action.payload };
     case ActionType.LACKS_GARDEN_SPACE_TOGGLE:
       return { ...state, lacksGardenSpace: !state.lacksGardenSpace };

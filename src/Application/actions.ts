@@ -1,7 +1,11 @@
-import { PersonalInfo } from './reducer';
+import { PersonalInfo, HistoryInfo } from './reducer';
 
 export const savePersonalInfo = (payload: PersonalInfo): ApplicationAction => {
   return { type: ActionType.SAVE_PERSONAL_INFO, payload };
+};
+
+export const saveHistoryInfo = (payload: HistoryInfo): ApplicationAction => {
+  return { type: ActionType.SAVE_HISTORY_INFO, payload };
 };
 
 export const toggleLacksGardenSpace = (): ApplicationAction => {
@@ -55,6 +59,7 @@ export const signedAgreement = (payload: boolean): ApplicationAction => {
 
 export enum ActionType {
   SAVE_PERSONAL_INFO,
+  SAVE_HISTORY_INFO,
   LACKS_GARDEN_SPACE_TOGGLE,
   HAD_CAMBRIDGE_PLOT_TOGGLE,
   CAMBRIDGE_PLOT_LOCATION_UPDATE,
@@ -70,6 +75,7 @@ export enum ActionType {
 
 export type ApplicationAction =
   | { type: ActionType.SAVE_PERSONAL_INFO; payload: PersonalInfo }
+  | { type: ActionType.SAVE_HISTORY_INFO; payload: HistoryInfo }
   | { type: ActionType.LACKS_GARDEN_SPACE_TOGGLE }
   | { type: ActionType.HAD_CAMBRIDGE_PLOT_TOGGLE }
   | { type: ActionType.CAMBRIDGE_PLOT_YEAR_UPDATE; payload: string }

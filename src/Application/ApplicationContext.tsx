@@ -29,5 +29,6 @@ export const ApplicationProvider: FunctionComponent = (props) => {
   const [state, dispatch] = useReducer(applicationReducer, initialState);
   const value = useMemo<ApplicationState>(() => [state, dispatch], [state]);
 
+  console.log({ state });
   return <ApplicationContext.Provider value={value} {...props} />;
 };

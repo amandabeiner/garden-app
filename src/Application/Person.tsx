@@ -17,6 +17,7 @@ import * as schema from './schema';
 import { Label } from '../common/Label';
 import { savePersonalInfo } from './actions';
 import { useNavigation } from '@react-navigation/native';
+import { useApplication } from './ApplicationContext';
 
 type NavigationProps = StackNavigationProp<ApplicationStepList, 'Person'>;
 type Props = { navigation: NavigationProps };
@@ -29,6 +30,8 @@ export const Person: FunctionComponent<Props> = () => {
   const fifthInput = useRef<TextInput>();
   const sixthInput = useRef<TextInput>();
 
+  const [, dispatch] = useApplication();
+
   const hasError = (
     field: keyof Application,
     errors: FormikErrors<Application>,
@@ -38,7 +41,7 @@ export const Person: FunctionComponent<Props> = () => {
   };
 
   const saveAndProceed = (values: PersonalInfo) => {
-    savePersonalInfo(values);
+    dispatch(savePersonalInfo(values));
     navigation.navigate('History');
   };
 
