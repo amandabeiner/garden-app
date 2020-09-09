@@ -1,23 +1,85 @@
 import { ActionType, ApplicationAction } from './actions';
 
+export enum ApplicationFields {
+  NAME = 'name',
+  ADDRESS_1 = 'address1',
+  ADDRESS_2 = 'address2',
+  ZIP = 'zip',
+  EMAIL = 'email',
+  PHONE = 'phone',
+  LACKS_GARDEN_SPACE = 'lacksGardenSpace',
+  HAD_PLOT_IN_CAMBRIDGE = 'hadPlotInCambridge',
+  CAMBRIDGE_PLOT_LOCATION = 'cambridgePlotLocation',
+  CAMBRIDGE_PLOT_YEAR = 'cambridgePlotYear',
+  HAD_NON_CAMBRIDGE_PLOT = 'hadNonCambridgePlot',
+  NON_CAMBRIDGE_PLOT_LOCATION = 'nonCambridgePlotLocation',
+  NON_CAMBRIDGE_PLOT_YEAR = 'nonCambridgePlotYear',
+  REQUIRES_ACCESSIBLE_PLOT = 'requiresAccessiblePlot',
+  VOLUNTEERS_TO_COORDINATE = 'volunteersToCoordinate',
+  AGREED_TO_TOS = 'agreedToTOS',
+  SIGNED_AGREEMENT = 'signedAgreement',
+}
+
 export type Application = {
-  name: string;
-  address1: string;
-  address2: string | null;
-  zip: string;
-  email: string;
-  phone: string;
-  lacksGardenSpace: boolean;
-  hadPlotInCambridge: boolean;
-  cambridgePlotLocation: string | null;
-  cambridgePlotYear: string | null;
-  hadNonCambridgePlot: boolean;
-  nonCambridgePlotLocation: string | null;
-  nonCambridgePlotYear: string | null;
-  requiresAccessiblePlot: boolean;
-  volunteersToCoordinate: boolean;
-  agreedToTOS: boolean;
-  signedAgreement: boolean;
+  [ApplicationFields.NAME]: string;
+  [ApplicationFields.ADDRESS_1]: string;
+  [ApplicationFields.ADDRESS_2]: string | null;
+  [ApplicationFields.ZIP]: string;
+  [ApplicationFields.EMAIL]: string;
+  [ApplicationFields.PHONE]: string;
+  [ApplicationFields.LACKS_GARDEN_SPACE]: boolean;
+  [ApplicationFields.HAD_PLOT_IN_CAMBRIDGE]: boolean;
+  [ApplicationFields.CAMBRIDGE_PLOT_LOCATION]: string | null;
+  [ApplicationFields.CAMBRIDGE_PLOT_YEAR]: string | null;
+  [ApplicationFields.HAD_NON_CAMBRIDGE_PLOT]: boolean;
+  [ApplicationFields.NON_CAMBRIDGE_PLOT_LOCATION]: string | null;
+  [ApplicationFields.NON_CAMBRIDGE_PLOT_YEAR]: string | null;
+  [ApplicationFields.REQUIRES_ACCESSIBLE_PLOT]: boolean;
+  [ApplicationFields.VOLUNTEERS_TO_COORDINATE]: boolean;
+  [ApplicationFields.AGREED_TO_TOS]: boolean;
+  [ApplicationFields.SIGNED_AGREEMENT]: boolean;
+};
+
+export const initialPersonValues = {
+  [ApplicationFields.NAME]: '',
+  [ApplicationFields.ADDRESS_1]: '',
+  [ApplicationFields.ADDRESS_2]: null,
+  [ApplicationFields.ZIP]: '',
+  [ApplicationFields.EMAIL]: '',
+  [ApplicationFields.PHONE]: '',
+};
+
+export const initialHistoryValues = {
+  [ApplicationFields.LACKS_GARDEN_SPACE]: false,
+  [ApplicationFields.HAD_PLOT_IN_CAMBRIDGE]: false,
+  [ApplicationFields.CAMBRIDGE_PLOT_LOCATION]: null,
+  [ApplicationFields.CAMBRIDGE_PLOT_YEAR]: null,
+  [ApplicationFields.HAD_NON_CAMBRIDGE_PLOT]: false,
+  [ApplicationFields.NON_CAMBRIDGE_PLOT_LOCATION]: null,
+  [ApplicationFields.NON_CAMBRIDGE_PLOT_YEAR]: null,
+  [ApplicationFields.REQUIRES_ACCESSIBLE_PLOT]: false,
+  [ApplicationFields.VOLUNTEERS_TO_COORDINATE]: false,
+};
+
+export type PersonalInfo = {
+  [ApplicationFields.NAME]: string;
+  [ApplicationFields.ADDRESS_1]: string;
+  [ApplicationFields.ADDRESS_2]: string | null;
+  [ApplicationFields.ZIP]: string;
+  [ApplicationFields.EMAIL]: string;
+  [ApplicationFields.PHONE]: string;
+};
+
+export type HistoryInfo = {
+  [ApplicationFields.LACKS_GARDEN_SPACE]: boolean;
+  [ApplicationFields.HAD_PLOT_IN_CAMBRIDGE]: boolean;
+  [ApplicationFields.CAMBRIDGE_PLOT_LOCATION]: string | null;
+  [ApplicationFields.CAMBRIDGE_PLOT_YEAR]: string | null;
+  [ApplicationFields.HAD_NON_CAMBRIDGE_PLOT]: boolean;
+  [ApplicationFields.NON_CAMBRIDGE_PLOT_LOCATION]: string | null;
+  [ApplicationFields.NON_CAMBRIDGE_PLOT_YEAR]: string | null;
+  [ApplicationFields.REQUIRES_ACCESSIBLE_PLOT]: boolean;
+  [ApplicationFields.VOLUNTEERS_TO_COORDINATE]: boolean;
 };
 
 export const applicationReducer = (
@@ -25,94 +87,20 @@ export const applicationReducer = (
   action: ApplicationAction,
 ) => {
   switch (action.type) {
-    case ActionType.NAME_UPDATE:
-      return { ...state, name: action.payload };
-    case ActionType.ADDRESS_1_UPDATE:
-      return { ...state, address1: action.payload };
-    case ActionType.ADDRESS_2_UPDATE:
-      return { ...state, address2: action.payload };
-    case ActionType.ZIP_UPDATE:
-      return { ...state, zip: action.payload };
-    case ActionType.EMAIL_UPDATE:
-      return { ...state, email: action.payload };
-    case ActionType.PHONE_UPDATE:
-      return { ...state, phone: action.payload };
-    case ActionType.LACKS_GARDEN_SPACE_TOGGLE:
-      return { ...state, lacksGardenSpace: !state.lacksGardenSpace };
-    case ActionType.HAD_CAMBRIDGE_PLOT_TOGGLE:
-      const {
-        hadPlotInCambridge,
-        cambridgePlotLocation,
-        cambridgePlotYear,
-      } = state;
-      const nextCambridgePlotState = !hadPlotInCambridge;
-
-      return {
-        ...state,
-        hadPlotInCambridge: nextCambridgePlotState,
-        cambridgePlotYear: nextCambridgePlotState ? cambridgePlotYear : null,
-        cambridgePlotLocation: nextCambridgePlotState
-          ? cambridgePlotLocation
-          : null,
-      };
-    case ActionType.CAMBRIDGE_PLOT_LOCATION_UPDATE:
-      return { ...state, cambridgePlotLocation: action.payload };
-    case ActionType.CAMBRIDGE_PLOT_YEAR_UPDATE:
-      return { ...state, cambridgePlotYear: action.payload };
-    case ActionType.HAD_NON_CAMBRIDGE_PLOT_TOGGLE:
-      const {
-        hadNonCambridgePlot,
-        nonCambridgePlotLocation,
-        nonCambridgePlotYear,
-      } = state;
-      const nextNonCambridgePlotState = !hadNonCambridgePlot;
-      return {
-        ...state,
-        hadNonCambridgePlot: nextNonCambridgePlotState,
-        nonCambridgePlotLocation: nextNonCambridgePlotState
-          ? nonCambridgePlotLocation
-          : null,
-        nonCambridgePlotYear: nextNonCambridgePlotState
-          ? nonCambridgePlotYear
-          : null,
-      };
-    case ActionType.NON_CAMBRIDGE_PLOT_LOCATION_UPDATE:
-      return { ...state, nonCambridgePlotLocation: action.payload };
-    case ActionType.NON_CAMBRIDGE_PLOT_YEAR_UPDATE:
-      return { ...state, nonCambridgePlotYear: action.payload };
-    case ActionType.REQUIRES_ACCESSIBLE_PLOT_TOGGLE:
-      return {
-        ...state,
-        requiresAccessiblePlot: !state.requiresAccessiblePlot,
-      };
-    case ActionType.VOLUNTEERS_TO_COORDINATE_TOGGLE:
-      return {
-        ...state,
-        volunteersToCoordinate: !state.volunteersToCoordinate,
-      };
-    case ActionType.AGREE_TO_TOS:
-      return { ...state, agreedToTOS: true };
-    case ActionType.SIGN_AGREEMENT:
-      return { ...state, signedAgreement: true };
+    case ActionType.SAVE_PERSONAL_INFO:
+      return { ...state, ...action.payload };
+    case ActionType.SAVE_HISTORY_INFO:
+      return { ...state, ...action.payload };
+    case ActionType.TOS_TOGGLE:
+      return { ...state, agreedToTOS: !state.agreedToTOS };
+    case ActionType.SIGN_AGREEMENT_TOGGLE:
+      return { ...state, signedAgreement: !state.signedAgreement };
   }
 };
 
 export const initialState: Application = {
-  name: '',
-  address1: '',
-  address2: null,
-  zip: '',
-  email: '',
-  phone: '',
-  lacksGardenSpace: false,
-  hadPlotInCambridge: false,
-  cambridgePlotLocation: null,
-  cambridgePlotYear: null,
-  hadNonCambridgePlot: false,
-  nonCambridgePlotLocation: null,
-  nonCambridgePlotYear: null,
-  requiresAccessiblePlot: false,
-  volunteersToCoordinate: false,
-  agreedToTOS: false,
-  signedAgreement: false,
+  ...initialPersonValues,
+  ...initialHistoryValues,
+  [ApplicationFields.AGREED_TO_TOS]: false,
+  [ApplicationFields.SIGNED_AGREEMENT]: false,
 };

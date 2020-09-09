@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { StyleSheet } from 'react-native';
 import { Leaf } from '../assets/index';
 import { useApplication } from './ApplicationContext';
@@ -6,14 +6,10 @@ import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { Spacing, Typography, Iconography, Colors } from '../styles/index';
 import { SvgXml } from 'react-native-svg';
 import { Checkbox, Button } from '../common/index';
+import { toggleSignAgreement } from './actions';
 
-interface Props {
-  [key: string]: any;
-}
-
-export const Signature: FunctionComponent<Props> = (props) => {
-  const [values] = useApplication();
-  const [infoConfirmed, setInfoConfirmed] = useState(false);
+export const Signature: FunctionComponent = () => {
+  const [values, dispatch] = useApplication();
   return (
     <SafeAreaView style={style.container}>
       <ScrollView style={style.content}>
@@ -64,11 +60,15 @@ export const Signature: FunctionComponent<Props> = (props) => {
       </ScrollView>
       <View style={style.footer}>
         <Checkbox
-          isSelected={infoConfirmed}
+          isSelected={values.signedAgreement}
           text="I confirm that the information above is correct to the best of my knowledge"
-          onPress={() => setInfoConfirmed(!infoConfirmed)}
+          onPress={() => dispatch(toggleSignAgreement())}
         />
-        <Button label="Submit Application" onPress={() => {}} />
+        <Button
+          label="Submit Application"
+          onPress={() => {}}
+          disabled={!values.signedAgreement}
+        />
       </View>
     </SafeAreaView>
   );

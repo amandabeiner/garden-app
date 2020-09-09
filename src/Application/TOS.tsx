@@ -6,10 +6,13 @@ import { Checkbox, Button } from '../common/index';
 import { Screens } from '../navigation';
 import { useNavigation } from '@react-navigation/native';
 import { Spacing } from '../styles/index';
+import { useApplication } from './ApplicationContext';
+import { toggleAgreeToTermsAccepted } from './actions';
 
 export const TOS: FunctionComponent = () => {
   const [city] = useCity();
-  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [state, dispatch] = useApplication();
+
   const navigation = useNavigation();
   const uri = `https://drive.google.com/viewerng/viewer?embedded=true&url=${city.tos}`;
   return (
@@ -18,14 +21,15 @@ export const TOS: FunctionComponent = () => {
       <View style={style.footer}>
         <Checkbox
           text="I have read and agree to the terms of service"
-          isSelected={termsAccepted}
+          isSelected={state.agreedToTOS}
           onPress={() => {
-            setTermsAccepted(!termsAccepted);
+            dispatch(toggleAgreeToTermsAccepted());
           }}
         />
         <Button
           label="Continue"
           onPress={() => navigation.navigate(Screens.Signature)}
+          disabled={!state.agreedToTOS}
         />
       </View>
     </SafeAreaView>

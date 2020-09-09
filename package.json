@@ -14,6 +14,9 @@
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/native": "^5.6.1",
     "@react-navigation/stack": "^5.6.2",
+    "@types/yup": "^0.29.6",
+    "eslint-plugin-prettier": "^3.1.4",
+    "formik": "^2.1.5",
     "lodash": "^4.17.20",
     "logkitty": "^0.7.1",
     "react": "16.11.0",
@@ -24,7 +27,8 @@
     "react-native-screens": "^2.9.0",
     "react-native-svg": "^12.1.0",
     "react-native-webview": "^10.8.0",
-    "tailwind-rn": "^1.1.1"
+    "tailwind-rn": "^1.1.1",
+    "yup": "^0.29.3"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",

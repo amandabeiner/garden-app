@@ -1,0 +1,68 @@
+import * as yup from 'yup';
+import { ApplicationFields } from './reducer';
+const PHONE_NUMBER = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+const NUMERIC_STRING = /^\d+$/;
+
+export const personSchema = yup.object({
+  [ApplicationFields.NAME]: yup.string().required('Required'),
+  [ApplicationFields.ADDRESS_1]: yup.string().required('Required'),
+  [ApplicationFields.ADDRESS_2]: yup.string().nullable(),
+  [ApplicationFields.ZIP]: yup
+    .string()
+    .length(5, 'Invalid')
+    .matches(NUMERIC_STRING, 'Invalid')
+    .required('Required'),
+  [ApplicationFields.EMAIL]: yup.string().email('Invalid').required('Required'),
+  [ApplicationFields.PHONE]: yup
+    .string()
+    .matches(PHONE_NUMBER, 'Invalid')
+    .required('Required'),
+});
+
+export const historySchema = yup.object({
+  [ApplicationFields.LACKS_GARDEN_SPACE]: yup.bool(),
+  [ApplicationFields.HAD_PLOT_IN_CAMBRIDGE]: yup.bool(),
+  [ApplicationFields.CAMBRIDGE_PLOT_LOCATION]: yup
+    .string()
+    .when(ApplicationFields.HAD_PLOT_IN_CAMBRIDGE, {
+      is: true,
+      then: yup.string().nullable().required('Required'),
+      otherwise: yup.string().nullable(),
+    }),
+  [ApplicationFields.CAMBRIDGE_PLOT_YEAR]: yup
+    .string()
+    .when(ApplicationFields.HAD_PLOT_IN_CAMBRIDGE, {
+      is: true,
+      then: yup
+        .string()
+        .matches(NUMERIC_STRING, 'Invalid')
+        .min(4, 'Invalid')
+        .max(4, 'Invalid')
+        .nullable()
+        .required('Required'),
+      otherwise: yup.string().nullable(),
+    }),
+  [ApplicationFields.HAD_NON_CAMBRIDGE_PLOT]: yup.bool(),
+  [ApplicationFields.NON_CAMBRIDGE_PLOT_LOCATION]: yup
+    .string()
+    .when(ApplicationFields.HAD_NON_CAMBRIDGE_PLOT, {
+      is: true,
+      then: yup.string().nullable().required('Required'),
+      otherwise: yup.string().nullable(),
+    }),
+  [ApplicationFields.NON_CAMBRIDGE_PLOT_YEAR]: yup
+    .string()
+    .when(ApplicationFields.HAD_NON_CAMBRIDGE_PLOT, {
+      is: true,
+      then: yup
+        .string()
+        .matches(NUMERIC_STRING, 'Invalid')
+        .min(4, 'Invalid')
+        .max(4, 'Invalid')
+        .nullable()
+        .required('Required'),
+      otherwise: yup.string().nullable(),
+    }),
+  [ApplicationFields.REQUIRES_ACCESSIBLE_PLOT]: yup.bool(),
+  [ApplicationFields.VOLUNTEERS_TO_COORDINATE]: yup.bool(),
+});
