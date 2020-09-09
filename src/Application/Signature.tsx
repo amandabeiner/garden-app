@@ -1,15 +1,18 @@
 import React, { FunctionComponent } from 'react';
 import { StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { SvgXml } from 'react-native-svg';
 import { Leaf } from '../assets/index';
 import { useApplication } from './ApplicationContext';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { Spacing, Typography, Iconography, Colors } from '../styles/index';
-import { SvgXml } from 'react-native-svg';
 import { Checkbox, Button } from '../common/index';
 import { toggleSignAgreement } from './actions';
+import { Screens } from '../navigation';
 
 export const Signature: FunctionComponent = () => {
   const [values, dispatch] = useApplication();
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={style.container}>
       <ScrollView style={style.content}>
@@ -66,7 +69,7 @@ export const Signature: FunctionComponent = () => {
         />
         <Button
           label="Submit Application"
-          onPress={() => {}}
+          onPress={() => navigation.navigate(Screens.Complete)}
           disabled={!values.signedAgreement}
         />
       </View>

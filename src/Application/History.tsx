@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { Formik } from 'formik';
 import { Typography, Spacing, Forms, Colors } from '../styles/index';
+import { Screens } from '../navigation';
 import { Button } from '../common/Button';
 import { Checkbox } from '../common/index';
 import {
@@ -29,7 +30,7 @@ export const History: FunctionComponent = () => {
 
   const saveAndProceed = (values: HistoryInfo) => {
     dispatch(saveHistoryInfo(values));
-    navigation.navigate('TOS');
+    navigation.navigate(Screens.TOS);
   };
   const {
     LACKS_GARDEN_SPACE,
