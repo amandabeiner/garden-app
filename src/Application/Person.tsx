@@ -21,6 +21,7 @@ import { savePersonalInfo } from './actions';
 import { useNavigation } from '@react-navigation/native';
 import { useApplication } from './ApplicationContext';
 import { fieldHasError } from './utils';
+import { Screens } from '../navigation';
 
 export const Person: FunctionComponent = () => {
   const navigation = useNavigation();
@@ -34,7 +35,7 @@ export const Person: FunctionComponent = () => {
 
   const saveAndProceed = (values: PersonalInfo) => {
     dispatch(savePersonalInfo(values));
-    navigation.navigate('History');
+    navigation.navigate(Screens.History);
   };
   const { NAME, ADDRESS_1, ADDRESS_2, ZIP, PHONE, EMAIL } = ApplicationFields;
 

@@ -4,6 +4,7 @@ import { Person } from './Person';
 import { History } from './History';
 import { TOS } from './TOS';
 import { Signature } from './Signature';
+import { Complete } from './Complete';
 import { ApplicationProvider } from './ApplicationContext';
 import { ApplicationScreens } from '../navigation/index';
 import { View, Text, StyleSheet } from 'react-native';
@@ -36,6 +37,11 @@ export const Application: FunctionComponent = () => {
           component={Signature}
           options={{ headerRight: () => HeaderRight(4, 4) }}
         />
+        <Stack.Screen
+          name={ApplicationScreens.Complete}
+          component={Complete}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </ApplicationProvider>
   );
@@ -46,6 +52,7 @@ export type ApplicationStepList = {
   History: undefined;
   TOS: undefined;
   Signature: undefined;
+  Complete: undefined;
 };
 
 const HeaderRight = (currentStep: number, totalSteps: number) => {

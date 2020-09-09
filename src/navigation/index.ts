@@ -1,11 +1,6 @@
 // Onboarding
 export type OnboardingScreen = 'Welcome' | 'SelectCity' | 'CityDetails';
 
-export type OnboardingStackParamList = {
-  SelectCity: undefined;
-  CityDetails: { city: string };
-};
-
 export const OnboardingScreens: {
   [key in OnboardingScreen]: OnboardingScreen;
 } = {
@@ -15,7 +10,13 @@ export const OnboardingScreens: {
 };
 
 // Application
-export type ApplicationScreen = 'History' | 'Person' | 'TOS' | 'Signature';
+export type ApplicationScreen =
+  | 'History'
+  | 'Person'
+  | 'TOS'
+  | 'Signature'
+  | 'Complete';
+
 export const ApplicationScreens: {
   [key in ApplicationScreen]: ApplicationScreen;
 } = {
@@ -23,22 +24,26 @@ export const ApplicationScreens: {
   Person: 'Person',
   TOS: 'TOS',
   Signature: 'Signature',
+  Complete: 'Complete',
 };
 
-export type ApplicationStackParamList = {
-  History: undefined;
-  Person: undefined;
-  Signature: undefined;
+export type HomeScreen = 'Home';
+export const HomeScreens: {
+  [key in HomeScreen]: HomeScreen;
+} = {
+  Home: 'Home',
 };
 
-export type Screen = OnboardingScreen | ApplicationScreen;
+export type Screen = OnboardingScreen | ApplicationScreen | HomeScreen;
 export const Screens: { [key in Screen]: Screen } = {
   ...OnboardingScreens,
   ...ApplicationScreens,
+  ...HomeScreens,
 };
 
-export type Stack = 'ApplicationStack' | 'OnboardingStack';
+export type Stack = 'ApplicationStack' | 'OnboardingStack' | 'HomeStack';
 export const Stacks: { [key in Stack]: Stack } = {
   ApplicationStack: 'ApplicationStack',
   OnboardingStack: 'OnboardingStack',
+  HomeStack: 'HomeStack',
 };
