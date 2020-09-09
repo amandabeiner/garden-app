@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useRef } from 'react';
-import { Formik, FormikErrors, FormikTouched } from 'formik';
-import { initialState, Application, PersonalInfo } from './reducer';
+import { Formik } from 'formik';
+import { PersonalInfo, initialPersonValues } from './reducer';
 import {
   Text,
   TextInput,
@@ -18,6 +18,7 @@ import { Label } from '../common/Label';
 import { savePersonalInfo } from './actions';
 import { useNavigation } from '@react-navigation/native';
 import { useApplication } from './ApplicationContext';
+import { fieldHasError } from './utils';
 
 type NavigationProps = StackNavigationProp<ApplicationStepList, 'Person'>;
 type Props = { navigation: NavigationProps };
@@ -32,14 +33,6 @@ export const Person: FunctionComponent<Props> = () => {
 
   const [, dispatch] = useApplication();
 
-  const hasError = (
-    field: keyof Application,
-    errors: FormikErrors<Application>,
-    touched: FormikTouched<Application>,
-  ): boolean => {
-    return Boolean(Boolean(errors[field] && touched[field]));
-  };
-
   const saveAndProceed = (values: PersonalInfo) => {
     dispatch(savePersonalInfo(values));
     navigation.navigate('History');
@@ -53,7 +46,7 @@ export const Person: FunctionComponent<Props> = () => {
           accurate information so that we can contact you.
         </Text>
         <Formik
-          initialValues={initialState}
+          initialValues={initialPersonValues}
           onSubmit={(values) => {
             saveAndProceed(values);
           }}
@@ -69,8 +62,8 @@ export const Person: FunctionComponent<Props> = () => {
             isValid,
             dirty,
           }) => {
-            const showError = (name: keyof Application): boolean => {
-              return hasError(name, errors, touched);
+            const showError = (name: keyof PersonalInfo): boolean => {
+              return fieldHasError<PersonalInfo>(name, errors, touched);
             };
             return (
               <>
