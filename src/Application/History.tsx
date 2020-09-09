@@ -11,7 +11,11 @@ import { Formik } from 'formik';
 import { Typography, Spacing, Forms, Colors } from '../styles/index';
 import { Button } from '../common/Button';
 import { Checkbox } from '../common/index';
-import { HistoryInfo, Application, initialHistoryValues } from './reducer';
+import {
+  HistoryInfo,
+  initialHistoryValues,
+  ApplicationFields,
+} from './reducer';
 import { saveHistoryInfo } from './actions';
 import { useNavigation } from '@react-navigation/native';
 import { useApplication } from './ApplicationContext';
@@ -27,6 +31,17 @@ export const History: FunctionComponent = () => {
     dispatch(saveHistoryInfo(values));
     navigation.navigate('TOS');
   };
+  const {
+    LACKS_GARDEN_SPACE,
+    HAD_PLOT_IN_CAMBRIDGE,
+    CAMBRIDGE_PLOT_LOCATION,
+    CAMBRIDGE_PLOT_YEAR,
+    HAD_NON_CAMBRIDGE_PLOT,
+    NON_CAMBRIDGE_PLOT_LOCATION,
+    NON_CAMBRIDGE_PLOT_YEAR,
+    REQUIRES_ACCESSIBLE_PLOT,
+    VOLUNTEERS_TO_COORDINATE,
+  } = ApplicationFields;
 
   return (
     <SafeAreaView style={style.container}>
@@ -46,70 +61,73 @@ export const History: FunctionComponent = () => {
             touched,
             isValid,
           }) => {
-            const showError = (name: keyof Application): boolean => {
+            const showError = (name: keyof HistoryInfo): boolean => {
               return fieldHasError<HistoryInfo>(name, errors, touched);
             };
             return (
               <>
                 <HistoryOption
                   onPress={() =>
-                    setFieldValue('lacksGardenSpace', !values.lacksGardenSpace)
+                    setFieldValue(
+                      LACKS_GARDEN_SPACE,
+                      !values[LACKS_GARDEN_SPACE],
+                    )
                   }
                   text="I do not have any gardening space associated with my residence"
-                  isSelected={values.lacksGardenSpace}
+                  isSelected={values[LACKS_GARDEN_SPACE]}
                 />
 
                 <HistoryOption
                   onPress={() =>
                     setFieldValue(
-                      'hadPlotInCambridge',
-                      !values.hadPlotInCambridge,
+                      HAD_PLOT_IN_CAMBRIDGE,
+                      !values[HAD_PLOT_IN_CAMBRIDGE],
                     )
                   }
                   text="I have participated in a community garden in Cambridge"
-                  isSelected={values.hadPlotInCambridge}>
+                  isSelected={values[HAD_PLOT_IN_CAMBRIDGE]}>
                   <>
                     <View style={style.inputWrapper}>
                       <Label
                         text="Where?"
-                        hasError={showError('cambridgePlotLocation')}
+                        hasError={showError(CAMBRIDGE_PLOT_LOCATION)}
                         viewStyle={style.label}
                       />
                       <TextInput
                         style={[
                           style.input,
-                          showError('cambridgePlotLocation') &&
+                          showError(CAMBRIDGE_PLOT_LOCATION) &&
                             style.inputError,
                         ]}
-                        value={values.cambridgePlotLocation}
-                        onChangeText={handleChange('cambridgePlotLocation')}
-                        onBlur={handleBlur('cambridgePlotLocation')}
+                        value={values[CAMBRIDGE_PLOT_LOCATION]}
+                        onChangeText={handleChange(CAMBRIDGE_PLOT_LOCATION)}
+                        onBlur={handleBlur(CAMBRIDGE_PLOT_LOCATION)}
                       />
-                      {showError('cambridgePlotLocation') && (
+                      {showError(CAMBRIDGE_PLOT_LOCATION) && (
                         <Text style={style.errorMessage}>
-                          {errors.cambridgePlotLocation}
+                          {errors[CAMBRIDGE_PLOT_LOCATION]}
                         </Text>
                       )}
                     </View>
                     <View style={style.inputWrapper}>
                       <Label
                         text="What year?"
-                        hasError={showError('cambridgePlotYear')}
+                        hasError={showError(CAMBRIDGE_PLOT_YEAR)}
                         viewStyle={style.label}
                       />
                       <TextInput
                         style={[
                           style.input,
-                          showError('cambridgePlotYear') && style.inputError,
+                          showError(CAMBRIDGE_PLOT_YEAR) && style.inputError,
                         ]}
-                        value={values.cambridgePlotYear}
+                        value={values[CAMBRIDGE_PLOT_YEAR]}
                         keyboardType="numeric"
-                        onChangeText={handleChange('cambridgePlotYear')}
-                        onBlur={handleBlur('cambridgePlotYear')}
+                        onChangeText={handleChange(CAMBRIDGE_PLOT_YEAR)}
+                        onBlur={handleBlur(CAMBRIDGE_PLOT_YEAR)}
                       />
-                      {showError('cambridgePlotYear') && (
+                      {showError(CAMBRIDGE_PLOT_YEAR) && (
                         <Text style={style.errorMessage}>
-                          {errors.cambridgePlotYear}
+                          {errors[CAMBRIDGE_PLOT_YEAR]}
                         </Text>
                       )}
                     </View>
@@ -118,54 +136,55 @@ export const History: FunctionComponent = () => {
                 <HistoryOption
                   onPress={() =>
                     setFieldValue(
-                      'hadNonCambridgePlot',
-                      !values.hadNonCambridgePlot,
+                      HAD_NON_CAMBRIDGE_PLOT,
+                      !values[HAD_NON_CAMBRIDGE_PLOT],
                     )
                   }
                   text="I have participated in a community garden somewhere other than Cambridge"
-                  isSelected={values.hadNonCambridgePlot}>
+                  isSelected={values[HAD_NON_CAMBRIDGE_PLOT]}>
                   <>
                     <View style={style.inputWrapper}>
                       <Label
                         text="Where?"
-                        hasError={showError('nonCambridgePlotLocation')}
+                        hasError={showError(NON_CAMBRIDGE_PLOT_LOCATION)}
                         viewStyle={style.label}
                       />
                       <TextInput
                         style={[
                           style.input,
-                          showError('nonCambridgePlotLocation') &&
+                          showError(NON_CAMBRIDGE_PLOT_LOCATION) &&
                             style.inputError,
                         ]}
-                        value={values.nonCambridgePlotLocation}
-                        onChangeText={handleChange('nonCambridgePlotLocation')}
-                        onBlur={handleBlur('nonCambridgePlotLocation')}
+                        value={values[NON_CAMBRIDGE_PLOT_LOCATION]}
+                        onChangeText={handleChange(NON_CAMBRIDGE_PLOT_LOCATION)}
+                        onBlur={handleBlur(NON_CAMBRIDGE_PLOT_LOCATION)}
                       />
-                      {showError('nonCambridgePlotLocation') && (
+                      {showError(NON_CAMBRIDGE_PLOT_LOCATION) && (
                         <Text style={style.errorMessage}>
-                          {errors.nonCambridgePlotLocation}
+                          {errors[NON_CAMBRIDGE_PLOT_LOCATION]}
                         </Text>
                       )}
                     </View>
                     <View style={style.inputWrapper}>
                       <Label
                         text="What year?"
-                        hasError={showError('nonCambridgePlotYear')}
+                        hasError={showError(NON_CAMBRIDGE_PLOT_YEAR)}
                         viewStyle={style.label}
                       />
                       <TextInput
                         style={[
                           style.input,
-                          showError('nonCambridgePlotYear') && style.inputError,
+                          showError(NON_CAMBRIDGE_PLOT_YEAR) &&
+                            style.inputError,
                         ]}
-                        value={values.nonCambridgePlotYear}
+                        value={values[NON_CAMBRIDGE_PLOT_YEAR]}
                         keyboardType="numeric"
-                        onChangeText={handleChange('nonCambridgePlotYear')}
-                        onBlur={handleBlur('nonCambridgePlotYear')}
+                        onChangeText={handleChange(NON_CAMBRIDGE_PLOT_YEAR)}
+                        onBlur={handleBlur(NON_CAMBRIDGE_PLOT_YEAR)}
                       />
-                      {showError('nonCambridgePlotYear') && (
+                      {showError(NON_CAMBRIDGE_PLOT_YEAR) && (
                         <Text style={style.errorMessage}>
-                          {errors.nonCambridgePlotYear}
+                          {errors[NON_CAMBRIDGE_PLOT_YEAR]}
                         </Text>
                       )}
                     </View>
@@ -174,12 +193,12 @@ export const History: FunctionComponent = () => {
                 <HistoryOption
                   onPress={() =>
                     setFieldValue(
-                      'requiresAccessiblePlot',
-                      !values.requiresAccessiblePlot,
+                      REQUIRES_ACCESSIBLE_PLOT,
+                      !values[REQUIRES_ACCESSIBLE_PLOT],
                     )
                   }
                   text="I have a disability and am interested in having an accessible garden plot"
-                  isSelected={values.requiresAccessiblePlot}>
+                  isSelected={values[REQUIRES_ACCESSIBLE_PLOT]}>
                   <Text style={style.disclaimer}>
                     By checking this box you agree to provide medical
                     documentation that your disability results in the need for
@@ -189,12 +208,12 @@ export const History: FunctionComponent = () => {
                 <HistoryOption
                   onPress={() =>
                     setFieldValue(
-                      'volunteersToCoordinate',
-                      !values.volunteersToCoordinate,
+                      VOLUNTEERS_TO_COORDINATE,
+                      !values[VOLUNTEERS_TO_COORDINATE],
                     )
                   }
                   text="I am interested in being the garden coordinator"
-                  isSelected={values.volunteersToCoordinate}
+                  isSelected={values[VOLUNTEERS_TO_COORDINATE]}
                 />
                 <Button
                   label="Next"
