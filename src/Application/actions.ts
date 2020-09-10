@@ -1,4 +1,4 @@
-import { PersonalInfo, HistoryInfo } from './reducer';
+import { PersonalInfo, HistoryInfo, GardenPreferences } from './reducer';
 
 export const savePersonalInfo = (payload: PersonalInfo): ApplicationAction => {
   return { type: ActionType.SAVE_PERSONAL_INFO, payload };
@@ -6,6 +6,12 @@ export const savePersonalInfo = (payload: PersonalInfo): ApplicationAction => {
 
 export const saveHistoryInfo = (payload: HistoryInfo): ApplicationAction => {
   return { type: ActionType.SAVE_HISTORY_INFO, payload };
+};
+
+export const saveGardenPreferences = (
+  payload: GardenPreferences,
+): ApplicationAction => {
+  return { type: ActionType.SAVE_GARDEN_PREFERENCES, payload };
 };
 
 export const toggleAgreeToTermsAccepted = (): ApplicationAction => {
@@ -19,6 +25,7 @@ export const toggleSignAgreement = (): ApplicationAction => {
 export enum ActionType {
   SAVE_PERSONAL_INFO,
   SAVE_HISTORY_INFO,
+  SAVE_GARDEN_PREFERENCES,
   TOS_TOGGLE,
   SIGN_AGREEMENT_TOGGLE,
 }
@@ -26,5 +33,6 @@ export enum ActionType {
 export type ApplicationAction =
   | { type: ActionType.SAVE_PERSONAL_INFO; payload: PersonalInfo }
   | { type: ActionType.SAVE_HISTORY_INFO; payload: HistoryInfo }
+  | { type: ActionType.SAVE_GARDEN_PREFERENCES; payload: GardenPreferences }
   | { type: ActionType.TOS_TOGGLE }
   | { type: ActionType.SIGN_AGREEMENT_TOGGLE };

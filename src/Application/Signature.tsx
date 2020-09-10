@@ -36,7 +36,7 @@ export const Signature: FunctionComponent = () => {
         />
         <AnswerItem title="Email:" value={values.email} />
         <AnswerItem title="Phone:" value={values.phone} />
-        <Text style={style.label}>Your answers:</Text>
+        <Text style={style.label}>About you:</Text>
         <View style={style.list}>
           <ListItem value={gardenSpaceToString(values.lacksGardenSpace)} />
           <ListItem
@@ -59,6 +59,12 @@ export const Signature: FunctionComponent = () => {
           <ListItem
             value={gardenCoordinatorToString(values.volunteersToCoordinate)}
           />
+        </View>
+        <Text style={style.label}>Applying to:</Text>
+        <View style={style.list}>
+          {values.gardenPreferences.map((g) => {
+            return <ListItem value={g} />;
+          })}
         </View>
       </ScrollView>
       <View style={style.footer}>
@@ -183,7 +189,7 @@ const style = StyleSheet.create({
     ...Typography.mainContent,
   },
   list: {
-    paddingTop: Spacing.xSmall,
+    paddingVertical: Spacing.xSmall,
   },
   listItem: {
     flexDirection: 'row',

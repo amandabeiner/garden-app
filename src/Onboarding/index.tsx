@@ -5,8 +5,8 @@ import { Welcome } from './Welcome';
 import { CityDetails } from './CityDetails';
 import { SelectCity } from './SelectCity';
 
-type OnboardingStackParams = { [key in OnboardingScreen]: undefined };
-const Stack = createStackNavigator<OnboardingStackParams>();
+type OnboardingStackList = { [key in OnboardingScreen]: undefined };
+const Stack = createStackNavigator<OnboardingStackList>();
 
 export const OnboardingStack: FunctionComponent = () => {
   return (
