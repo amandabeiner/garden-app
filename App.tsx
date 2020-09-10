@@ -17,7 +17,7 @@ const App: FunctionComponent = () => {
   return (
     <NavigationContainer>
       <CityProvider>
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName={Stacks.HomeStack}>
           <Stack.Screen
             name={Stacks.OnboardingStack}
             component={OnboardingStack}
