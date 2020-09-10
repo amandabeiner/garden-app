@@ -16,6 +16,7 @@ export enum ApplicationFields {
   NON_CAMBRIDGE_PLOT_YEAR = 'nonCambridgePlotYear',
   REQUIRES_ACCESSIBLE_PLOT = 'requiresAccessiblePlot',
   VOLUNTEERS_TO_COORDINATE = 'volunteersToCoordinate',
+  GARDEN_PREFERENCES = 'gardenPreferences',
   AGREED_TO_TOS = 'agreedToTOS',
   SIGNED_AGREEMENT = 'signedAgreement',
 }
@@ -36,6 +37,7 @@ export type Application = {
   [ApplicationFields.NON_CAMBRIDGE_PLOT_YEAR]: string | null;
   [ApplicationFields.REQUIRES_ACCESSIBLE_PLOT]: boolean;
   [ApplicationFields.VOLUNTEERS_TO_COORDINATE]: boolean;
+  [ApplicationFields.GARDEN_PREFERENCES]: string[];
   [ApplicationFields.AGREED_TO_TOS]: boolean;
   [ApplicationFields.SIGNED_AGREEMENT]: boolean;
 };
@@ -61,6 +63,10 @@ export const initialHistoryValues = {
   [ApplicationFields.VOLUNTEERS_TO_COORDINATE]: false,
 };
 
+export const initialGardenPreferencesValues = {
+  [ApplicationFields.GARDEN_PREFERENCES]: [],
+};
+
 export type PersonalInfo = {
   [ApplicationFields.NAME]: string;
   [ApplicationFields.ADDRESS_1]: string;
@@ -82,6 +88,10 @@ export type HistoryInfo = {
   [ApplicationFields.VOLUNTEERS_TO_COORDINATE]: boolean;
 };
 
+export type GardenPreferences = {
+  [ApplicationFields.GARDEN_PREFERENCES]: string[];
+};
+
 export const applicationReducer = (
   state: Application,
   action: ApplicationAction,
@@ -90,6 +100,8 @@ export const applicationReducer = (
     case ActionType.SAVE_PERSONAL_INFO:
       return { ...state, ...action.payload };
     case ActionType.SAVE_HISTORY_INFO:
+      return { ...state, ...action.payload };
+    case ActionType.SAVE_GARDEN_PREFERENCES:
       return { ...state, ...action.payload };
     case ActionType.TOS_TOGGLE:
       return { ...state, agreedToTOS: !state.agreedToTOS };
@@ -101,6 +113,7 @@ export const applicationReducer = (
 export const initialState: Application = {
   ...initialPersonValues,
   ...initialHistoryValues,
+  ...initialGardenPreferencesValues,
   [ApplicationFields.AGREED_TO_TOS]: false,
   [ApplicationFields.SIGNED_AGREEMENT]: false,
 };

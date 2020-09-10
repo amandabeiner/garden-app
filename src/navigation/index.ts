@@ -13,6 +13,7 @@ export const OnboardingScreens: {
 export type ApplicationScreen =
   | 'History'
   | 'Person'
+  | 'GardenPreferences'
   | 'TOS'
   | 'Signature'
   | 'Complete';
@@ -22,6 +23,7 @@ export const ApplicationScreens: {
 } = {
   History: 'History',
   Person: 'Person',
+  GardenPreferences: 'GardenPreferences',
   TOS: 'TOS',
   Signature: 'Signature',
   Complete: 'Complete',

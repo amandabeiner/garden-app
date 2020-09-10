@@ -30,7 +30,7 @@ export const History: FunctionComponent = () => {
 
   const saveAndProceed = (values: HistoryInfo) => {
     dispatch(saveHistoryInfo(values));
-    navigation.navigate(Screens.TOS);
+    navigation.navigate(Screens.GardenPreferences);
   };
   const {
     LACKS_GARDEN_SPACE,

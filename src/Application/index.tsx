@@ -5,8 +5,9 @@ import { History } from './History';
 import { TOS } from './TOS';
 import { Signature } from './Signature';
 import { Complete } from './Complete';
+import { GardenPreferences } from './GardenPreferences';
 import { ApplicationProvider } from './ApplicationContext';
-import { ApplicationScreens } from '../navigation/index';
+import { ApplicationScreens, ApplicationScreen } from '../navigation/index';
 import { View, Text, StyleSheet } from 'react-native';
 import { Spacing, Typography, Colors } from '../styles/index';
 
@@ -20,22 +21,27 @@ export const Application: FunctionComponent = () => {
         <Stack.Screen
           name={ApplicationScreens.Person}
           component={Person}
-          options={{ headerRight: () => HeaderRight(1, 4) }}
+          options={{ headerRight: () => HeaderRight(1, 5) }}
         />
         <Stack.Screen
           name={ApplicationScreens.History}
           component={History}
-          options={{ headerRight: () => HeaderRight(2, 4) }}
+          options={{ headerRight: () => HeaderRight(2, 5) }}
+        />
+        <Stack.Screen
+          name={ApplicationScreens.GardenPreferences}
+          component={GardenPreferences}
+          options={{ headerRight: () => HeaderRight(3, 5) }}
         />
         <Stack.Screen
           name={ApplicationScreens.TOS}
           component={TOS}
-          options={{ headerRight: () => HeaderRight(3, 4) }}
+          options={{ headerRight: () => HeaderRight(4, 5) }}
         />
         <Stack.Screen
           name={ApplicationScreens.Signature}
           component={Signature}
-          options={{ headerRight: () => HeaderRight(4, 4) }}
+          options={{ headerRight: () => HeaderRight(5, 5) }}
         />
         <Stack.Screen
           name={ApplicationScreens.Complete}
@@ -47,13 +53,7 @@ export const Application: FunctionComponent = () => {
   );
 };
 
-export type ApplicationStepList = {
-  Person: undefined;
-  History: undefined;
-  TOS: undefined;
-  Signature: undefined;
-  Complete: undefined;
-};
+type ApplicationStepList = { [key in ApplicationScreen]: undefined };
 
 const HeaderRight = (currentStep: number, totalSteps: number) => {
   return (
