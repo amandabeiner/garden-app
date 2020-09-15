@@ -29,12 +29,16 @@ export const SelectCity: FunctionComponent = () => {
     </SafeAreaView>
   );
 };
-const CityItem: FunctionComponent<{ city: City }> = ({ city }) => {
-  const [, setCity] = useCity();
+
+type CityItemProps = {
+  city: City;
+};
+const CityItem: FunctionComponent<CityItemProps> = ({ city }) => {
+  const { updateCity } = useCity();
   const navigation = useNavigation();
 
-  const selectCity = (city: City) => {
-    setCity(city);
+  const selectCity = (selectedCity: City) => {
+    updateCity(selectedCity);
     navigation.navigate(OnboardingScreens.CityDetails);
   };
 

@@ -8,7 +8,7 @@ import { useCity } from '../CityContext';
 
 export const CityDetails: FunctionComponent = () => {
   const { navigate } = useNavigation();
-  const [city] = useCity();
+  const { city } = useCity();
 
   return (
     <SafeAreaView style={style.container}>
