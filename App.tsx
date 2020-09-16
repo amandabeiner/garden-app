@@ -6,6 +6,7 @@ import { Home } from './src/Home';
 import { Stacks } from './src/navigation/index';
 import { OnboardingStack } from './src/Onboarding/index';
 import { CityProvider } from './src/CityContext';
+import { UserProvider } from './src/UserContext';
 
 const Stack = createStackNavigator();
 
@@ -17,23 +18,25 @@ const App: FunctionComponent = () => {
   return (
     <NavigationContainer>
       <CityProvider>
-        <Stack.Navigator initialRouteName={Stacks.HomeStack}>
-          <Stack.Screen
-            name={Stacks.OnboardingStack}
-            component={OnboardingStack}
-            options={{ ...SCREEN_OPTIONS }}
-          />
-          <Stack.Screen
-            name={Stacks.ApplicationStack}
-            component={Application}
-            options={{ ...SCREEN_OPTIONS }}
-          />
-          <Stack.Screen
-            name={Stacks.HomeStack}
-            component={Home}
-            options={{ ...SCREEN_OPTIONS }}
-          />
-        </Stack.Navigator>
+        <UserProvider>
+          <Stack.Navigator initialRouteName={Stacks.HomeStack}>
+            <Stack.Screen
+              name={Stacks.OnboardingStack}
+              component={OnboardingStack}
+              options={{ ...SCREEN_OPTIONS }}
+            />
+            <Stack.Screen
+              name={Stacks.ApplicationStack}
+              component={Application}
+              options={{ ...SCREEN_OPTIONS }}
+            />
+            <Stack.Screen
+              name={Stacks.HomeStack}
+              component={Home}
+              options={{ ...SCREEN_OPTIONS }}
+            />
+          </Stack.Navigator>
+        </UserProvider>
       </CityProvider>
     </NavigationContainer>
   );

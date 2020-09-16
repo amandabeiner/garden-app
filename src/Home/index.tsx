@@ -1,98 +1,60 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
-import { VictoryPie, VictoryLabel } from 'victory-native';
-import { Svg } from 'react-native-svg';
-import { Colors, Typography, Spacing } from '../styles/index';
+import React, { FunctionComponent } from 'react';
+import { TouchableOpacity, StyleSheet } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
+import { SvgXml } from 'react-native-svg';
 
-type Props = {
-  placeOnList?: number;
-  listTotal?: number;
-};
+import { HomeScreens } from '../navigation/index';
+import { Dashboard } from './Dashboard';
+import { Colors, Iconography, Spacing } from '../styles/index';
+import { Profile } from '../assets/index';
+import { Settings } from './Settings';
 
-export const Home: FunctionComponent<Props> = ({
-  placeOnList = 500,
-  listTotal = 1150,
-}) => {
-  const [place, setPlace] = useState(0);
-  const [total, setTotal] = useState(1);
-
-  useEffect(() => {
-    setPlace(placeOnList);
-    setTotal(listTotal);
-  }, [listTotal, placeOnList]);
-
-  const percentageComplete = (place / total) * 100;
-
-  const data = [
-    { x: 1, y: percentageComplete },
-    { x: 2, y: 100 - percentageComplete },
-  ];
-
-  const formatNumber = (num: number) => {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const Stack = createStackNavigator();
+export const Home: FunctionComponent = () => {
+  const navigation = useNavigation();
+  const onPressProfile = () => {
+    navigation.navigate(HomeScreens.Profile);
   };
 
   return (
-    <SafeAreaView style={style.container}>
-      <View style={style.progressGraph}>
-        <Svg viewBox="0 0 200 200" height={350} width={350}>
-          <VictoryPie
-            standalone={false}
-            animate={{ duration: 3000 }}
-            width={200}
-            height={200}
-            data={data}
-            innerRadius={60}
-            cornerRadius={25}
-            labels={() => null}
-            style={{
-              data: {
-                fill: ({ datum }) => {
-                  return datum.x === 1 ? Colors.primaryBlue : 'transparent';
-                },
-              },
-            }}
-          />
-          <VictoryLabel
-            textAnchor="middle"
-            verticalAnchor="middle"
-            x={100}
-            y={100}
-            text={[
-              `${formatNumber(place)}`,
-              'out of',
-              `${formatNumber(total)}`,
-            ]}
-            lineHeight={1.25}
-            style={style.graphLabel}
-          />
-        </Svg>
-      </View>
-    </SafeAreaView>
+    <Stack.Navigator initialRouteName={HomeScreens.Dashboard}>
+      <Stack.Screen
+        name={HomeScreens.Dashboard}
+        component={Dashboard}
+        options={{
+          headerStyle: { backgroundColor: Colors.primaryBlue },
+          title: '',
+          headerRight: () => ProfileButton({ onPress: onPressProfile }),
+        }}
+      />
+      <Stack.Screen
+        name={HomeScreens.Profile}
+        component={Settings}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+type ProfileButtonProps = {
+  onPress: () => void;
+};
+const ProfileButton: FunctionComponent<ProfileButtonProps> = ({ onPress }) => {
+  return (
+    <TouchableOpacity onPress={onPress} style={style.profileContainer}>
+      <SvgXml
+        xml={Profile}
+        fill={Colors.white}
+        width={Iconography.small}
+        height={Iconography.small}
+      />
+    </TouchableOpacity>
   );
 };
 
 const style = StyleSheet.create({
-  container: {
-    margin: Spacing.large,
-  },
-  header: {
-    ...Typography.header2,
-    paddingTop: Spacing.large,
-    paddingBottom: Spacing.xSmall,
-  },
-  subheader: {
-    ...Typography.secondaryContent,
-    paddingBottom: Spacing.xSmall,
-  },
-  progressGraph: {
-    display: 'flex',
-    marginTop: Spacing.xLarge,
-    alignItems: 'center',
-  },
-  graphLabel: {
-    ...Typography.secondaryContent,
-    fontSize: Typography.xSmall,
-    fontFamily: 'System',
+  profileContainer: {
+    marginRight: Spacing.small,
   },
 });
