@@ -6,7 +6,6 @@ export const useStatusBarEffect = (
   statusBarStyle: StatusBarStyle,
   backgroundColor: string,
 ): void => {
-  console.log({ backgroundColor });
   useFocusEffect(
     useCallback(() => {
       StatusBar.setBarStyle(statusBarStyle);

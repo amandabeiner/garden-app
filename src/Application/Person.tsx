@@ -7,10 +7,11 @@ import {
 } from './reducer';
 import {
   Text,
+  Platform,
   TextInput,
   StyleSheet,
-  SafeAreaView,
   View,
+  KeyboardAvoidingView,
   ScrollView,
 } from 'react-native';
 import { Typography, Spacing, Forms, Colors } from '../styles/index';
@@ -20,7 +21,7 @@ import { Label } from '../common/Label';
 import { savePersonalInfo } from './actions';
 import { useNavigation } from '@react-navigation/native';
 import { useApplication } from './ApplicationContext';
-import { fieldHasError } from './utils';
+import { fieldHasError } from '../utils';
 import { Screens } from '../navigation';
 
 export const Person: FunctionComponent = () => {
@@ -40,7 +41,10 @@ export const Person: FunctionComponent = () => {
   const { NAME, ADDRESS_1, ADDRESS_2, ZIP, PHONE, EMAIL } = ApplicationFields;
 
   return (
-    <SafeAreaView style={style.container}>
+    <KeyboardAvoidingView
+      behavior="padding"
+      style={style.container}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}>
       <ScrollView>
         <Text style={style.subheader}>
           We need a little information about you. Please be sure to provide
@@ -194,7 +198,7 @@ export const Person: FunctionComponent = () => {
           }}
         </Formik>
       </ScrollView>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 

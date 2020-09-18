@@ -26,6 +26,7 @@ export const Home: FunctionComponent = () => {
           headerStyle: { backgroundColor: Colors.primaryBlue },
           title: '',
           headerRight: () => ProfileButton({ onPress: onPressProfile }),
+          headerLeft: null,
         }}
       />
       <Stack.Screen

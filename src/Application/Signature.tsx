@@ -9,10 +9,19 @@ import { Spacing, Typography, Iconography, Colors } from '../styles/index';
 import { Checkbox, Button } from '../common/index';
 import { toggleSignAgreement } from './actions';
 import { Screens } from '../navigation';
+import { useUser } from '../UserContext';
 
 export const Signature: FunctionComponent = () => {
   const [values, dispatch] = useApplication();
+  const { updateCurrentUser } = useUser();
+  const { name, address1, address2, zip, phone, email } = values;
   const navigation = useNavigation();
+
+  const saveAndProceed = () => {
+    updateCurrentUser({ name, address1, address2, zip, phone, email });
+    navigation.navigate(Screens.Complete);
+  };
+
   return (
     <SafeAreaView style={style.container}>
       <ScrollView style={style.content}>
@@ -75,7 +84,7 @@ export const Signature: FunctionComponent = () => {
         />
         <Button
           label="Submit Application"
-          onPress={() => navigation.navigate(Screens.Complete)}
+          onPress={saveAndProceed}
           disabled={!values.signedAgreement}
         />
       </View>

@@ -9,15 +9,17 @@ import user from './user.json';
 
 type UserState = {
   currentUser: User;
-  updateCurrentUser: (user: User) => void;
+  updateCurrentUser: (user: Partial<User>) => void;
 };
 
 export const UserContext = createContext(null);
 
 export const UserProvider: FunctionComponent = (props) => {
   const [currentUser, setCurrentUser] = useState(user);
+  console.log({ currentUser });
 
-  const updateCurrentUser = (newUser: User) => {
+  const updateCurrentUser = (newUser: Partial<User>) => {
+    console.log({ newUser });
     setCurrentUser({ ...currentUser, ...newUser });
   };
 

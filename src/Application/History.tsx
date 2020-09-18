@@ -21,7 +21,7 @@ import { saveHistoryInfo } from './actions';
 import { useNavigation } from '@react-navigation/native';
 import { useApplication } from './ApplicationContext';
 import { historySchema } from './schema';
-import { fieldHasError } from './utils';
+import { fieldHasError } from '../utils';
 import { Label } from '../common/Label';
 
 export const History: FunctionComponent = () => {
