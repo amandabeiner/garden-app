@@ -1,62 +1,58 @@
 import React, { FunctionComponent, useRef } from 'react';
-import { Formik } from 'formik';
-import {
-  PersonalInfo,
-  initialPersonValues,
-  ApplicationFields,
-} from './reducer';
 import {
   Text,
-  Platform,
-  TextInput,
-  StyleSheet,
   View,
-  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  TextInput,
   ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
-import { Typography, Spacing, Forms, Colors } from '../styles/index';
-import { Button } from '../common/Button';
-import * as schema from './schema';
-import { Label } from '../common/Label';
-import { savePersonalInfo } from './actions';
 import { useNavigation } from '@react-navigation/native';
-import { useApplication } from './ApplicationContext';
-import { fieldHasError } from '../utils';
-import { Screens } from '../navigation';
+import { Formik } from 'formik';
 
-export const Person: FunctionComponent = () => {
+import { HomeScreens } from '../navigation';
+import { useStatusBarEffect } from '../navigation/useStatusBarEffect';
+import { CloseButton, Label, Button } from '../common/index';
+import { Typography, Spacing, Forms, Colors } from '../styles/index';
+
+import { UserFields, schema, types } from '../user/index';
+
+import { fieldHasError } from '../utils';
+import { useUser } from '../UserContext';
+
+export const Settings: FunctionComponent = () => {
+  useStatusBarEffect('dark-content', Colors.white);
   const navigation = useNavigation();
   const secondInput = useRef<TextInput>();
   const thirdInput = useRef<TextInput>();
   const fourthInput = useRef<TextInput>();
   const fifthInput = useRef<TextInput>();
   const sixthInput = useRef<TextInput>();
+  const { currentUser, updateCurrentUser } = useUser();
 
-  const [, dispatch] = useApplication();
-
-  const saveAndProceed = (values: PersonalInfo) => {
-    dispatch(savePersonalInfo(values));
-    navigation.navigate(Screens.History);
+  const updateUser = (values: Partial<types.User>) => {
+    updateCurrentUser(values);
+    navigation.navigate(HomeScreens.Dashboard);
   };
-  const { NAME, ADDRESS_1, ADDRESS_2, ZIP, PHONE, EMAIL } = ApplicationFields;
+  const onPressClose = () => {
+    navigation.navigate(HomeScreens.Dashboard);
+  };
 
+  const { NAME, ADDRESS_1, ADDRESS_2, ZIP, PHONE, EMAIL } = UserFields;
   return (
     <KeyboardAvoidingView
       behavior="padding"
       style={style.container}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}>
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0}>
+      <CloseButton onPress={onPressClose} />
+      <Text style={style.header}>Your Information</Text>
       <ScrollView>
-        <Text style={style.subheader}>
-          We need a little information about you. Please be sure to provide
-          accurate information so that we can contact you.
-        </Text>
         <Formik
-          initialValues={initialPersonValues}
-          onSubmit={(values) => {
-            saveAndProceed(values);
-          }}
+          initialValues={currentUser}
+          onSubmit={updateUser}
           validateOnBlur
-          validationSchema={schema.personSchema}>
+          validationSchema={schema}>
           {({
             handleChange,
             handleBlur,
@@ -67,8 +63,8 @@ export const Person: FunctionComponent = () => {
             isValid,
             dirty,
           }) => {
-            const showError = (name: keyof PersonalInfo): boolean => {
-              return fieldHasError<PersonalInfo>(name, errors, touched);
+            const showError = (name: keyof types.User): boolean => {
+              return fieldHasError<types.User>(name, errors, touched);
             };
             return (
               <>
@@ -188,7 +184,7 @@ export const Person: FunctionComponent = () => {
                 )}
                 <View style={style.footer}>
                   <Button
-                    label="Next"
+                    label="Save"
                     onPress={handleSubmit}
                     disabled={!isValid || !dirty}
                   />
@@ -207,9 +203,9 @@ const style = StyleSheet.create({
     flex: 1,
     margin: Spacing.medium,
   },
-  subheader: {
-    ...Typography.mainContent,
-    paddingBottom: Spacing.medium,
+  header: {
+    ...Typography.header3,
+    marginBottom: Spacing.xSmall,
   },
   input: {
     ...Forms.textInputFormField,

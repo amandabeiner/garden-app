@@ -10,7 +10,7 @@ import { useApplication } from './ApplicationContext';
 import { toggleAgreeToTermsAccepted } from './actions';
 
 export const TOS: FunctionComponent = () => {
-  const [city] = useCity();
+  const { city } = useCity();
   const [state, dispatch] = useApplication();
 
   const navigation = useNavigation();

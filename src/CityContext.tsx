@@ -6,12 +6,21 @@ import React, {
 } from 'react';
 import { City } from './types';
 
-type CityState = [City, (city: City) => void];
+type CityState = {
+  city: City;
+  updateCity: (city: City) => void;
+};
+
 export const CityContext = createContext(null);
 
 export const CityProvider: FunctionComponent = (props) => {
   const [city, setCity] = useState(null);
-  return <CityContext.Provider value={[city, setCity]} {...props} />;
+
+  const updateCity = (newCity: City) => {
+    setCity(newCity);
+  };
+
+  return <CityContext.Provider value={{ city, updateCity }} {...props} />;
 };
 
 export const useCity = (): CityState => {
@@ -21,7 +30,7 @@ export const useCity = (): CityState => {
     throw new Error('useCity must be within an CityProvider');
   }
 
-  const [city, setCity] = context;
+  const { city, updateCity } = context;
 
-  return [city, setCity];
+  return { city, updateCity };
 };

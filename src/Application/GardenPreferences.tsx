@@ -12,7 +12,7 @@ export const GardenPreferences: FunctionComponent = () => {
   const navigation = useNavigation();
   const [gardenPreferences, setGardenPreferences] = useState<string[]>([]);
   const [, dispatch] = useApplication();
-  const [city] = useCity();
+  const { city } = useCity();
 
   const toggleGarden = (garden: string) => {
     if (gardenPreferences.includes(garden)) {

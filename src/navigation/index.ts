@@ -29,11 +29,12 @@ export const ApplicationScreens: {
   Complete: 'Complete',
 };
 
-export type HomeScreen = 'Home';
+export type HomeScreen = 'Dashboard' | 'Profile';
 export const HomeScreens: {
   [key in HomeScreen]: HomeScreen;
 } = {
-  Home: 'Home',
+  Dashboard: 'Dashboard',
+  Profile: 'Profile',
 };
 
 export type Screen = OnboardingScreen | ApplicationScreen | HomeScreen;

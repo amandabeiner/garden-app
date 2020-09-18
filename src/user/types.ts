@@ -1,15 +1,3 @@
-export type City = {
-  name: string;
-  id: number;
-  description: string;
-  tos: string;
-  gardens: Garden[];
-};
-
-export type Garden = {
-  name: string;
-};
-
 export type User = {
   name: string;
   address1: string;
