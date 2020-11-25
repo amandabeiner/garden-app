@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
+import { gql } from '@apollo/client';
 
 import { HomeScreens } from '../navigation';
 import { useStatusBarEffect } from '../navigation/useStatusBarEffect';
@@ -35,6 +36,7 @@ export const Settings: FunctionComponent = () => {
     updateCurrentUser(values);
     navigation.navigate(HomeScreens.Dashboard);
   };
+
   const onPressClose = () => {
     navigation.navigate(HomeScreens.Dashboard);
   };
@@ -197,6 +199,19 @@ export const Settings: FunctionComponent = () => {
     </KeyboardAvoidingView>
   );
 };
+
+export const HomeSettingsFragment = gql`
+  fragment HomeSettingsFragment on User {
+    id
+    firstName
+    lastName
+    street1
+    street2
+    zip
+    email
+    phone
+  }
+`;
 
 const style = StyleSheet.create({
   container: {

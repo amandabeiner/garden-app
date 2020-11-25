@@ -233,6 +233,10 @@ PODS:
     - React-cxxreact (= 0.62.0)
     - React-jsi (= 0.62.0)
   - React-jsinspector (0.62.0)
+  - react-native-config (1.4.1):
+    - react-native-config/App (= 1.4.1)
+  - react-native-config/App (1.4.1):
+    - React-Core
   - react-native-safe-area-context (3.0.7):
     - React
   - react-native-webview (10.8.0):
@@ -332,6 +336,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-config (from `../node_modules/react-native-config`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -396,6 +401,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-config:
+    :path: "../node_modules/react-native-config"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-webview:
@@ -459,6 +466,7 @@ SPEC CHECKSUMS:
   React-jsi: bc8166d6833cdcb0848c80710b26ce63fad2c099
   React-jsiexecutor: 8bf0b2707f05865113415088c398a7f98c0cf546
   React-jsinspector: 8e5913c4c6c54f0d3f9c9fc630c465a89cded65d
+  react-native-config: d8b45133fd13d4f23bd2064b72f6e2c08b2763ed
   react-native-safe-area-context: ef6f16c66b0797ecae1bf86c103dfb3dc16fc33d
   react-native-webview: bbe20ef0e39caf153c1446621f0d56d460c1f1f5
   React-RCTActionSheet: 674afbc8b9c76e0a83520e0a51da29a70802c03f
@@ -479,6 +487,6 @@ SPEC CHECKSUMS:
   Yoga: 9db9ff2025ad21d1ac0a8b3c85d5ac4e7c29d525
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: ca454b2f48b2dbbef13665c62db960204c16c79a
+PODFILE CHECKSUM: 96388aa98f2114ddf35073d661ad5a59358bb5bd
 
 COCOAPODS: 1.9.3
