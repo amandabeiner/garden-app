@@ -176,6 +176,12 @@ export const secondaryTextInput: TextStyle = {
   color: Colors.primaryText,
 };
 
+export const link: TextStyle = {
+  ...mainContent,
+  color: Colors.secondaryBlue,
+  textDecorationLine: 'underline',
+};
+
 // Navigation
 export const navHeader: TextStyle = {
   ...largeFont,

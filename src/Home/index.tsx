@@ -8,6 +8,7 @@ import { gql, useQuery } from '@apollo/client';
 import { userQuery as UserQueryData } from './__generated__/userQuery';
 import { HomeScreens } from '../navigation/index';
 import { Dashboard } from './Dashboard';
+import { SignIn } from './SignIn';
 import { Colors, Iconography, Spacing } from '../styles/index';
 import { Profile } from '../assets/index';
 import { Settings, HomeSettingsFragment } from './Settings';
@@ -42,6 +43,11 @@ export const Home: FunctionComponent = () => {
       <Stack.Screen
         name={HomeScreens.Profile}
         component={Settings}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={HomeScreens.SignIn}
+        component={SignIn}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

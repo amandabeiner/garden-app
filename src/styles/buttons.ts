@@ -18,6 +18,11 @@ const large: ViewStyle = {
   paddingBottom: Spacing.large + 1,
 };
 
+const small: ViewStyle = {
+  paddingTop: Spacing.small,
+  paddingBottom: Spacing.small + 1,
+};
+
 // Color
 const primaryBlue: ViewStyle = {
   backgroundColor: Colors.primaryBlue,
@@ -61,4 +66,13 @@ export const secondary: ViewStyle = {
   ...base,
   ...large,
   ...transparent,
+};
+
+export const text: ViewStyle = {
+  ...small,
+  backgroundColor: 'rgba(0, 0, 0, 0)',
+};
+
+export const textDisabled: ViewStyle = {
+  ...text,
 };

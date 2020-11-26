@@ -1,16 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import { SvgXml } from 'react-native-svg';
-import {
-  SafeAreaView,
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { OnboardingScreens } from '../navigation/index';
+import { OnboardingScreens, Stacks, HomeScreens } from '../navigation/index';
+import { Button } from '../common/Button';
 
-import { Colors, Spacing, Buttons, Typography } from '../styles/index';
+import { Colors, Spacing, Typography } from '../styles/index';
 import { Plant } from '../assets/index';
 
 export const Welcome: FunctionComponent = () => {
@@ -29,11 +24,21 @@ export const Welcome: FunctionComponent = () => {
         <Text style={style.appName}>App Name</Text>
       </View>
       <View style={style.footerContainer}>
-        <TouchableOpacity
-          style={style.getStarted}
-          onPress={() => navigation.navigate(OnboardingScreens.SelectCity)}>
-          <Text style={style.getStartedText}>Get started</Text>
-        </TouchableOpacity>
+        <Button
+          onPress={() => navigation.navigate(OnboardingScreens.SelectCity)}
+          label="Get started"
+        />
+        <View style={style.signIn}>
+          <Button
+            onPress={() =>
+              navigation.navigate(Stacks.HomeStack, {
+                screen: HomeScreens.SignIn,
+              })
+            }
+            label="Sign in"
+            variant="text"
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -63,10 +68,7 @@ const style = StyleSheet.create({
     marginBottom: Spacing.small,
     alignSelf: 'stretch',
   },
-  getStarted: {
-    ...Buttons.primary,
-  },
-  getStartedText: {
-    ...Typography.buttonTextPrimary,
+  signIn: {
+    alignItems: 'center',
   },
 });

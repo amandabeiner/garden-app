@@ -29,12 +29,13 @@ export const ApplicationScreens: {
   Complete: 'Complete',
 };
 
-export type HomeScreen = 'Dashboard' | 'Profile';
+export type HomeScreen = 'SignIn' | 'Dashboard' | 'Profile';
 export const HomeScreens: {
   [key in HomeScreen]: HomeScreen;
 } = {
   Dashboard: 'Dashboard',
   Profile: 'Profile',
+  SignIn: 'SignIn',
 };
 
 export type Screen = OnboardingScreen | ApplicationScreen | HomeScreen;
@@ -45,6 +46,7 @@ export const Screens: { [key in Screen]: Screen } = {
 };
 
 export type Stack = 'ApplicationStack' | 'OnboardingStack' | 'HomeStack';
+
 export const Stacks: { [key in Stack]: Stack } = {
   ApplicationStack: 'ApplicationStack',
   OnboardingStack: 'OnboardingStack',
