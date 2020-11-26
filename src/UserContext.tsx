@@ -16,10 +16,8 @@ export const UserContext = createContext(null);
 
 export const UserProvider: FunctionComponent = (props) => {
   const [currentUser, setCurrentUser] = useState(user);
-  console.log({ currentUser });
 
   const updateCurrentUser = (newUser: Partial<User>) => {
-    console.log({ newUser });
     setCurrentUser({ ...currentUser, ...newUser });
   };
 

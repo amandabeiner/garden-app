@@ -11,7 +11,8 @@ export type Garden = {
 };
 
 export type User = {
-  name: string;
+  firstName: string;
+  lastName: string;
   address1: string;
   address2: string | null;
   zip: string;

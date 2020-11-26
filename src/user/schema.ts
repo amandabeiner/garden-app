@@ -3,7 +3,8 @@ import { UserFields } from './formFields';
 import { regex } from '../utils';
 
 export const schema = yup.object({
-  [UserFields.NAME]: yup.string().required('Required'),
+  [UserFields.FIRST_NAME]: yup.string().required('Required'),
+  [UserFields.LAST_NAME]: yup.string().required('Required'),
   [UserFields.ADDRESS_1]: yup.string().required('Required'),
   [UserFields.ADDRESS_2]: yup.string().nullable(),
   [UserFields.ZIP]: yup
