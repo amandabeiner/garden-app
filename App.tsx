@@ -44,7 +44,7 @@ const App: FunctionComponent = () => {
       <ApolloProvider client={client}>
         <CityProvider>
           <UserProvider>
-            <Stack.Navigator initialRouteName={Stacks.HomeStack}>
+            <Stack.Navigator initialRouteName={Stacks.OnboardingStack}>
               <Stack.Screen
                 name={Stacks.OnboardingStack}
                 component={OnboardingStack}

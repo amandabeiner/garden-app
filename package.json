@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "prettier:write": "npx prettier --write *.{js,jsx,ts,tsx,json}",
     "schema:download": "apollo schema:download --endpoint=https://gardenapp.gadget.host/api/graphql graphql-schema.json",
-    "types:generate": "apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --includes=src/**/*.ts --tagName=gql --addTypename --globalTypesFile=src/types/graphql-global-types.ts types"
+    "types:generate": "apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --tagName=gql --addTypename --globalTypesFile=src/__generated__/globalTypes.ts __generated__"
   },
   "dependencies": {
     "@apollo/client": "^3.2.9",

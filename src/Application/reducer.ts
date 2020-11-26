@@ -1,7 +1,8 @@
 import { ActionType, ApplicationAction } from './actions';
 
 export enum ApplicationFields {
-  NAME = 'name',
+  FIRST_NAME = 'FIRST_NAME',
+  LAST_NAME = 'LAST_NAME',
   ADDRESS_1 = 'address1',
   ADDRESS_2 = 'address2',
   ZIP = 'zip',
@@ -22,7 +23,8 @@ export enum ApplicationFields {
 }
 
 export type Application = {
-  [ApplicationFields.NAME]: string;
+  [ApplicationFields.FIRST_NAME]: string;
+  [ApplicationFields.LAST_NAME]: string;
   [ApplicationFields.ADDRESS_1]: string;
   [ApplicationFields.ADDRESS_2]: string | null;
   [ApplicationFields.ZIP]: string;
@@ -43,7 +45,8 @@ export type Application = {
 };
 
 export const initialPersonValues = {
-  [ApplicationFields.NAME]: '',
+  [ApplicationFields.FIRST_NAME]: '',
+  [ApplicationFields.LAST_NAME]: '',
   [ApplicationFields.ADDRESS_1]: '',
   [ApplicationFields.ADDRESS_2]: null,
   [ApplicationFields.ZIP]: '',
@@ -68,7 +71,8 @@ export const initialGardenPreferencesValues = {
 };
 
 export type PersonalInfo = {
-  [ApplicationFields.NAME]: string;
+  [ApplicationFields.FIRST_NAME]: string;
+  [ApplicationFields.LAST_NAME]: string;
   [ApplicationFields.ADDRESS_1]: string;
   [ApplicationFields.ADDRESS_2]: string | null;
   [ApplicationFields.ZIP]: string;
