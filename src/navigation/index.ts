@@ -16,7 +16,8 @@ export type ApplicationScreen =
   | 'GardenPreferences'
   | 'TOS'
   | 'Signature'
-  | 'Complete';
+  | 'Complete'
+  | 'SignUp';
 
 export const ApplicationScreens: {
   [key in ApplicationScreen]: ApplicationScreen;
@@ -27,6 +28,7 @@ export const ApplicationScreens: {
   TOS: 'TOS',
   Signature: 'Signature',
   Complete: 'Complete',
+  SignUp: 'SignUp',
 };
 
 export type HomeScreen = 'SignIn' | 'Dashboard' | 'Profile';

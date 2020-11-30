@@ -4,6 +4,7 @@ import { Person } from './Person';
 import { History } from './History';
 import { TOS } from './TOS';
 import { Signature } from './Signature';
+import { SignUp } from './SignUp';
 import { Complete } from './Complete';
 import { GardenPreferences } from './GardenPreferences';
 import { ApplicationProvider } from './ApplicationContext';
@@ -16,7 +17,7 @@ export const Application: FunctionComponent = () => {
   return (
     <ApplicationProvider>
       <Stack.Navigator
-        initialRouteName={ApplicationScreens.Person}
+        initialRouteName={ApplicationScreens.SignUp}
         screenOptions={{ title: '', headerBackTitle: 'Back' }}>
         <Stack.Screen
           name={ApplicationScreens.Person}
@@ -42,6 +43,11 @@ export const Application: FunctionComponent = () => {
           name={ApplicationScreens.Signature}
           component={Signature}
           options={{ headerRight: () => HeaderRight(5, 5) }}
+        />
+        <Stack.Screen
+          name={ApplicationScreens.SignUp}
+          component={SignUp}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={ApplicationScreens.Complete}
