@@ -9,17 +9,13 @@ import { Spacing, Typography, Iconography, Colors } from '../styles/index';
 import { Checkbox, Button } from '../common/index';
 import { toggleSignAgreement } from './actions';
 import { Screens } from '../navigation';
-import { useUser } from '../UserContext';
 
 export const Signature: FunctionComponent = () => {
-  const [values, dispatch] = useApplication();
-  const { updateCurrentUser } = useUser();
-  const { name, address1, address2, zip, phone, email } = values;
+  const [{ backgroundInfo, personalInfo }, dispatch] = useApplication();
   const navigation = useNavigation();
 
   const saveAndProceed = () => {
-    updateCurrentUser({ name, address1, address2, zip, phone, email });
-    navigation.navigate(Screens.Complete);
+    navigation.navigate(Screens.SignUp);
   };
 
   return (
@@ -30,62 +26,71 @@ export const Signature: FunctionComponent = () => {
           Please review your answers below. Submitting will complete your
           application and serve as your virtual signature.
         </Text>
-        <AnswerItem title="Name:" value={values.name} />
+        <AnswerItem title="First name:" value={personalInfo.firstName} />
+        <AnswerItem title="Last name:" value={personalInfo.lastName} />
         <AnswerItem
           title="Address:"
           value={
             <>
-              <Text style={style.address1}>
-                {values.address1} {values.address2}
+              <Text style={style.street1}>
+                {personalInfo.street1} {personalInfo.street2}
                 {'\n'}
               </Text>
-              <Text style={style.address2}>Cambridge, MA {values.zip}</Text>
+              <Text style={style.street2}>
+                Cambridge, MA {personalInfo.zip}
+              </Text>
             </>
           }
         />
-        <AnswerItem title="Email:" value={values.email} />
-        <AnswerItem title="Phone:" value={values.phone} />
+        <AnswerItem title="Email:" value={personalInfo.email} />
+        <AnswerItem title="Phone:" value={personalInfo.phone} />
         <Text style={style.label}>About you:</Text>
         <View style={style.list}>
-          <ListItem value={gardenSpaceToString(values.lacksGardenSpace)} />
+          <ListItem
+            value={gardenSpaceToString(backgroundInfo.lacksGardenSpace)}
+          />
           <ListItem
             value={cambridgePlotToString(
-              values.hadPlotInCambridge,
-              values.cambridgePlotLocation,
-              values.cambridgePlotYear,
+              backgroundInfo.hadPlotInCambridge,
+              backgroundInfo.cambridgePlotLocation,
+              backgroundInfo.cambridgePlotYear,
             )}
           />
           <ListItem
             value={nonCambridgePlotToString(
-              values.hadNonCambridgePlot,
-              values.nonCambridgePlotLocation,
-              values.nonCambridgePlotYear,
+              backgroundInfo.hadNonCambridgePlot,
+              backgroundInfo.nonCambridgePlotLocation,
+              backgroundInfo.nonCambridgePlotYear,
             )}
           />
           <ListItem
-            value={accessiblePlotToString(values.requiresAccessiblePlot)}
+            value={accessiblePlotToString(
+              backgroundInfo.requiresAccessiblePlot,
+            )}
           />
           <ListItem
-            value={gardenCoordinatorToString(values.volunteersToCoordinate)}
+            value={gardenCoordinatorToString(
+              backgroundInfo.volunteersToCoordinate,
+            )}
           />
         </View>
         <Text style={style.label}>Applying to:</Text>
         <View style={style.list}>
-          {values.gardenPreferences.map((g) => {
+          {backgroundInfo.gardenPreferences.map((g) => {
             return <ListItem value={g} />;
           })}
         </View>
       </ScrollView>
       <View style={style.footer}>
         <Checkbox
-          isSelected={values.signedAgreement}
+          isSelected={backgroundInfo.signedAgreement}
           text="I confirm that the information above is correct to the best of my knowledge"
           onPress={() => dispatch(toggleSignAgreement())}
         />
         <Button
           label="Submit Application"
           onPress={saveAndProceed}
-          disabled={!values.signedAgreement}
+          disabled={!backgroundInfo.signedAgreement}
         />
       </View>
     </SafeAreaView>
@@ -209,11 +214,11 @@ const style = StyleSheet.create({
     ...Typography.secondaryContent,
     flex: 1,
   },
-  address1: {
+  street1: {
     flexDirection: 'row',
     flex: 1,
   },
-  address2: {
+  street2: {
     flexDirection: 'row',
     flex: 1,
   },

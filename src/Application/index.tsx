@@ -17,7 +17,7 @@ export const Application: FunctionComponent = () => {
   return (
     <ApplicationProvider>
       <Stack.Navigator
-        initialRouteName={ApplicationScreens.SignUp}
+        initialRouteName={ApplicationScreens.Person}
         screenOptions={{ title: '', headerBackTitle: 'Back' }}>
         <Stack.Screen
           name={ApplicationScreens.Person}

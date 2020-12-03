@@ -21,7 +21,7 @@ export const TOS: FunctionComponent = () => {
       <View style={style.footer}>
         <Checkbox
           text="I have read and agree to the terms of service"
-          isSelected={state.agreedToTOS}
+          isSelected={state.backgroundInfo.agreedToTOS}
           onPress={() => {
             dispatch(toggleAgreeToTermsAccepted());
           }}
@@ -29,7 +29,7 @@ export const TOS: FunctionComponent = () => {
         <Button
           label="Continue"
           onPress={() => navigation.navigate(Screens.Signature)}
-          disabled={!state.agreedToTOS}
+          disabled={!state.backgroundInfo.agreedToTOS}
         />
       </View>
     </SafeAreaView>

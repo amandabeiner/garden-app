@@ -22,6 +22,7 @@ import { UserFields, schema, types } from '../user/index';
 
 import { fieldHasError } from '../utils';
 import { useUser } from '../UserContext';
+import { CurrentUser } from '../__generated__/CurrentUser';
 
 export const Settings: FunctionComponent = () => {
   useStatusBarEffect('dark-content', Colors.white);
@@ -31,10 +32,11 @@ export const Settings: FunctionComponent = () => {
   const fourthInput = useRef<TextInput>();
   const fifthInput = useRef<TextInput>();
   const sixthInput = useRef<TextInput>();
-  const { currentUser, updateCurrentUser } = useUser();
+  const { currentUser } = useUser();
+  console.log({ currentUser });
 
-  const updateUser = (values: Partial<types.User>) => {
-    updateCurrentUser(values);
+  const updateUser = (values: Partial<CurrentUser>) => {
+    // updateCurrentUser(values);
     navigation.navigate(HomeScreens.Dashboard);
   };
 

@@ -1,10 +1,10 @@
 import { ActionType, ApplicationAction } from './actions';
 
 export enum ApplicationFields {
-  FIRST_NAME = 'FIRST_NAME',
-  LAST_NAME = 'LAST_NAME',
-  ADDRESS_1 = 'address1',
-  ADDRESS_2 = 'address2',
+  FIRST_NAME = 'firstName',
+  LAST_NAME = 'lastName',
+  ADDRESS_1 = 'street1',
+  ADDRESS_2 = 'street2',
   ZIP = 'zip',
   EMAIL = 'email',
   PHONE = 'phone',
@@ -23,25 +23,29 @@ export enum ApplicationFields {
 }
 
 export type Application = {
-  [ApplicationFields.FIRST_NAME]: string;
-  [ApplicationFields.LAST_NAME]: string;
-  [ApplicationFields.ADDRESS_1]: string;
-  [ApplicationFields.ADDRESS_2]: string | null;
-  [ApplicationFields.ZIP]: string;
-  [ApplicationFields.EMAIL]: string;
-  [ApplicationFields.PHONE]: string;
-  [ApplicationFields.LACKS_GARDEN_SPACE]: boolean;
-  [ApplicationFields.HAD_PLOT_IN_CAMBRIDGE]: boolean;
-  [ApplicationFields.CAMBRIDGE_PLOT_LOCATION]: string | null;
-  [ApplicationFields.CAMBRIDGE_PLOT_YEAR]: string | null;
-  [ApplicationFields.HAD_NON_CAMBRIDGE_PLOT]: boolean;
-  [ApplicationFields.NON_CAMBRIDGE_PLOT_LOCATION]: string | null;
-  [ApplicationFields.NON_CAMBRIDGE_PLOT_YEAR]: string | null;
-  [ApplicationFields.REQUIRES_ACCESSIBLE_PLOT]: boolean;
-  [ApplicationFields.VOLUNTEERS_TO_COORDINATE]: boolean;
-  [ApplicationFields.GARDEN_PREFERENCES]: string[];
-  [ApplicationFields.AGREED_TO_TOS]: boolean;
-  [ApplicationFields.SIGNED_AGREEMENT]: boolean;
+  personalInfo: {
+    [ApplicationFields.FIRST_NAME]: string;
+    [ApplicationFields.LAST_NAME]: string;
+    [ApplicationFields.ADDRESS_1]: string;
+    [ApplicationFields.ADDRESS_2]: string | null;
+    [ApplicationFields.ZIP]: string;
+    [ApplicationFields.EMAIL]: string;
+    [ApplicationFields.PHONE]: string;
+  };
+  backgroundInfo: {
+    [ApplicationFields.LACKS_GARDEN_SPACE]: boolean;
+    [ApplicationFields.HAD_PLOT_IN_CAMBRIDGE]: boolean;
+    [ApplicationFields.CAMBRIDGE_PLOT_LOCATION]: string | null;
+    [ApplicationFields.CAMBRIDGE_PLOT_YEAR]: string | null;
+    [ApplicationFields.HAD_NON_CAMBRIDGE_PLOT]: boolean;
+    [ApplicationFields.NON_CAMBRIDGE_PLOT_LOCATION]: string | null;
+    [ApplicationFields.NON_CAMBRIDGE_PLOT_YEAR]: string | null;
+    [ApplicationFields.REQUIRES_ACCESSIBLE_PLOT]: boolean;
+    [ApplicationFields.VOLUNTEERS_TO_COORDINATE]: boolean;
+    [ApplicationFields.GARDEN_PREFERENCES]: string[];
+    [ApplicationFields.AGREED_TO_TOS]: boolean;
+    [ApplicationFields.SIGNED_AGREEMENT]: boolean;
+  };
 };
 
 export const initialPersonValues = {
@@ -102,22 +106,44 @@ export const applicationReducer = (
 ) => {
   switch (action.type) {
     case ActionType.SAVE_PERSONAL_INFO:
-      return { ...state, ...action.payload };
+      return { ...state, personalInfo: { ...action.payload } };
     case ActionType.SAVE_HISTORY_INFO:
-      return { ...state, ...action.payload };
+      return {
+        ...state,
+        backgroundInfo: { ...state.backgroundInfo, ...action.payload },
+      };
     case ActionType.SAVE_GARDEN_PREFERENCES:
-      return { ...state, ...action.payload };
+      return {
+        ...state,
+        backgroundInfo: { ...state.backgroundInfo, ...action.payload },
+      };
     case ActionType.TOS_TOGGLE:
-      return { ...state, agreedToTOS: !state.agreedToTOS };
+      return {
+        ...state,
+        backgroundInfo: {
+          ...state.backgroundInfo,
+          agreedToTOS: !state.backgroundInfo.agreedToTOS,
+        },
+      };
     case ActionType.SIGN_AGREEMENT_TOGGLE:
-      return { ...state, signedAgreement: !state.signedAgreement };
+      return {
+        ...state,
+        backgroundInfo: {
+          ...state.backgroundInfo,
+          signedAgreement: !state.backgroundInfo.signedAgreement,
+        },
+      };
   }
 };
 
 export const initialState: Application = {
-  ...initialPersonValues,
-  ...initialHistoryValues,
-  ...initialGardenPreferencesValues,
-  [ApplicationFields.AGREED_TO_TOS]: false,
-  [ApplicationFields.SIGNED_AGREEMENT]: false,
+  personalInfo: {
+    ...initialPersonValues,
+  },
+  backgroundInfo: {
+    ...initialHistoryValues,
+    ...initialGardenPreferencesValues,
+    [ApplicationFields.AGREED_TO_TOS]: false,
+    [ApplicationFields.SIGNED_AGREEMENT]: false,
+  },
 };

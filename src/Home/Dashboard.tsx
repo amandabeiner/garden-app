@@ -14,8 +14,8 @@ export const Dashboard: FunctionComponent = () => {
   const { currentUser } = useUser();
 
   useEffect(() => {
-    setPlace(currentUser.placeOnList);
-    setTotal(currentUser.listTotal);
+    setPlace(500);
+    setTotal(1150);
   }, [currentUser]);
 
   const percentageComplete = (place / total) * 100;

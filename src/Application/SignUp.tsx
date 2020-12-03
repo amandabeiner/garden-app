@@ -2,32 +2,30 @@ import React, { FunctionComponent, useState, useRef } from 'react';
 import { SafeAreaView, Text, TextInput, StyleSheet } from 'react-native';
 import { Label, Button } from '../common';
 import { Spacing, Forms, Typography } from '../styles/index';
+import { useUser } from '../UserContext';
+import { useApplication } from './ApplicationContext';
 
 export const SignUp: FunctionComponent = () => {
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const { createUser } = useUser();
+  const [{ personalInfo }] = useApplication();
 
   const passwordInput = useRef<TextInput>();
   const confirmPasswordInput = useRef<TextInput>();
 
   const disableSubmit =
-    password !== confirmPassword ||
-    password === '' ||
-    confirmPassword === '' ||
-    email === '';
+    password !== confirmPassword || password === '' || confirmPassword === '';
+
+  const submitForm = () => {
+    const user = { ...personalInfo, password };
+    console.log({ user });
+    createUser({ variables: user });
+  };
 
   return (
     <SafeAreaView style={style.container}>
-      <Text style={style.signUp}>Welcome</Text>
-      <Label text="Email" />
-      <TextInput
-        style={style.input}
-        value={email}
-        onChangeText={setEmail}
-        returnKeyType="next"
-        onSubmitEditing={() => passwordInput.current.focus()}
-      />
+      <Text style={style.signUp}>Create an account</Text>
       <Label text="Password" />
       <TextInput
         secureTextEntry
@@ -49,7 +47,7 @@ export const SignUp: FunctionComponent = () => {
         onChangeText={setConfirmPassword}
         ref={confirmPasswordInput}
       />
-      <Button label="Sign up" disabled={disableSubmit} onPress={() => {}} />
+      <Button label="Sign up" disabled={disableSubmit} onPress={submitForm} />
     </SafeAreaView>
   );
 };
