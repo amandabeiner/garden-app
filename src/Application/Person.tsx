@@ -38,7 +38,15 @@ export const Person: FunctionComponent = () => {
     dispatch(savePersonalInfo(values));
     navigation.navigate(Screens.History);
   };
-  const { NAME, ADDRESS_1, ADDRESS_2, ZIP, PHONE, EMAIL } = ApplicationFields;
+  const {
+    FIRST_NAME,
+    LAST_NAME,
+    ADDRESS_1,
+    ADDRESS_2,
+    ZIP,
+    PHONE,
+    EMAIL,
+  } = ApplicationFields;
 
   return (
     <KeyboardAvoidingView
@@ -72,19 +80,45 @@ export const Person: FunctionComponent = () => {
             };
             return (
               <>
-                <View style={style.inputWrapper}>
-                  <Label text="Your name" hasError={showError(NAME)} />
-                  <TextInput
-                    style={[style.input, showError(NAME) && style.inputError]}
-                    value={values[NAME]}
-                    returnKeyType="next"
-                    onChangeText={handleChange(NAME)}
-                    onBlur={handleBlur(NAME)}
-                    onSubmitEditing={() => secondInput.current.focus()}
-                  />
-                  {showError(NAME) && (
-                    <Text style={style.errorMessage}>{errors[NAME]}</Text>
-                  )}
+                <View style={style.inputGroup}>
+                  <View style={style.firstName}>
+                    <Label text="First name" hasError={showError(FIRST_NAME)} />
+                    <TextInput
+                      style={[
+                        style.input,
+                        showError(FIRST_NAME) && style.inputError,
+                      ]}
+                      value={values[FIRST_NAME]}
+                      returnKeyType="next"
+                      onChangeText={handleChange(FIRST_NAME)}
+                      onBlur={handleBlur(FIRST_NAME)}
+                      onSubmitEditing={() => secondInput.current.focus()}
+                    />
+                    {showError(FIRST_NAME) && (
+                      <Text style={style.errorMessage}>
+                        {errors[FIRST_NAME]}
+                      </Text>
+                    )}
+                  </View>
+                  <View style={style.lastName}>
+                    <Label text="Last name" hasError={showError(LAST_NAME)} />
+                    <TextInput
+                      style={[
+                        style.input,
+                        showError(LAST_NAME) && style.inputError,
+                      ]}
+                      value={values[LAST_NAME]}
+                      returnKeyType="next"
+                      onChangeText={handleChange(LAST_NAME)}
+                      onBlur={handleBlur(LAST_NAME)}
+                      onSubmitEditing={() => secondInput.current.focus()}
+                    />
+                    {showError(LAST_NAME) && (
+                      <Text style={style.errorMessage}>
+                        {errors[LAST_NAME]}
+                      </Text>
+                    )}
+                  </View>
                 </View>
                 <View style={style.inputGroup}>
                   <View style={style.address1}>
@@ -231,6 +265,13 @@ const style = StyleSheet.create({
   errorMessage: {
     ...Typography.error,
     paddingLeft: Spacing.xxxSmall,
+  },
+  firstName: {
+    flex: 1,
+    marginRight: Spacing.small,
+  },
+  lastName: {
+    flex: 1,
   },
   address1: {
     flex: 1,
