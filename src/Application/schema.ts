@@ -3,7 +3,8 @@ import { ApplicationFields } from './reducer';
 import { regex } from '../utils';
 
 export const personSchema = yup.object({
-  [ApplicationFields.NAME]: yup.string().required('Required'),
+  [ApplicationFields.FIRST_NAME]: yup.string().required('Required'),
+  [ApplicationFields.LAST_NAME]: yup.string().required('Required'),
   [ApplicationFields.ADDRESS_1]: yup.string().required('Required'),
   [ApplicationFields.ADDRESS_2]: yup.string().nullable(),
   [ApplicationFields.ZIP]: yup
