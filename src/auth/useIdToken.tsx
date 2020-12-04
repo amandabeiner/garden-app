@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export const useIdToken = () => {
   const [userIdToken, setUserIdToken] = useState<string | null>();

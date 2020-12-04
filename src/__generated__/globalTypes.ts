@@ -18,11 +18,6 @@ export interface CreateUserInput {
   applications?: ManyApplicationRelationshipInput | null;
 }
 
-export interface LogInViaEmailSessionInput {
-  email?: string | null;
-  password?: string | null;
-}
-
 /**
  * Input object supporting setting or updating related Application records.
  */

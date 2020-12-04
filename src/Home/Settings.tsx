@@ -33,7 +33,6 @@ export const Settings: FunctionComponent = () => {
   const fifthInput = useRef<TextInput>();
   const sixthInput = useRef<TextInput>();
   const { currentUser } = useUser();
-  console.log({ currentUser });
 
   const updateUser = (values: Partial<CurrentUser>) => {
     // updateCurrentUser(values);

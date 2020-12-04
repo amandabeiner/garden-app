@@ -26,8 +26,10 @@ export const Signature: FunctionComponent = () => {
           Please review your answers below. Submitting will complete your
           application and serve as your virtual signature.
         </Text>
-        <AnswerItem title="First name:" value={personalInfo.firstName} />
-        <AnswerItem title="Last name:" value={personalInfo.lastName} />
+        <AnswerItem
+          title="Name:"
+          value={`${personalInfo.firstName} ${personalInfo.lastName}`}
+        />
         <AnswerItem
           title="Address:"
           value={
@@ -77,7 +79,7 @@ export const Signature: FunctionComponent = () => {
         <Text style={style.label}>Applying to:</Text>
         <View style={style.list}>
           {backgroundInfo.gardenPreferences.map((g) => {
-            return <ListItem value={g} />;
+            return <ListItem key={g} value={g} />;
           })}
         </View>
       </ScrollView>

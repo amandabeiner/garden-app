@@ -75,7 +75,6 @@ export const Person: FunctionComponent = () => {
             isValid,
             dirty,
           }) => {
-            console.log({ isValid, errors });
             const showError = (name: keyof PersonalInfo): boolean => {
               return fieldHasError<PersonalInfo>(name, errors, touched);
             };

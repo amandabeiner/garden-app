@@ -1,27 +1,53 @@
 import React, { FunctionComponent, useState, useRef } from 'react';
 import { SafeAreaView, Text, TextInput, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { gql, useMutation } from '@apollo/client';
+
 import { Label, Button } from '../common';
 import { Spacing, Forms, Typography } from '../styles/index';
 import { useUser } from '../UserContext';
 import { useApplication } from './ApplicationContext';
+import {
+  createUserVariables as CreateUserVariables,
+  createUser as CreateUserData,
+} from './__generated__/createUser';
+import { Screens } from '../navigation';
 
 export const SignUp: FunctionComponent = () => {
+  const navigation = useNavigation();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const { createUser } = useUser();
+  const { setCurrentUser } = useUser();
   const [{ personalInfo }] = useApplication();
 
   const passwordInput = useRef<TextInput>();
   const confirmPasswordInput = useRef<TextInput>();
 
-  const disableSubmit =
-    password !== confirmPassword || password === '' || confirmPassword === '';
+  const [createUser, { loading }] = useMutation<
+    CreateUserData,
+    CreateUserVariables
+  >(createUserMutation, {
+    onCompleted: ({ createUser: { user } }) => {
+      setCurrentUser(user);
+    },
+  });
 
-  const submitForm = () => {
-    const user = { ...personalInfo, password };
-    console.log({ user });
-    createUser({ variables: user });
+  const submitForm = async () => {
+    try {
+      const user = { ...personalInfo, password };
+      await createUser({ variables: { user } });
+      debugger;
+      navigation.navigate(Screens.Complete);
+    } catch (e) {
+      console.error(e);
+    }
   };
+
+  const disableSubmit =
+    password !== confirmPassword ||
+    password === '' ||
+    confirmPassword === '' ||
+    loading;
 
   return (
     <SafeAreaView style={style.container}>
@@ -66,3 +92,20 @@ const style = StyleSheet.create({
     marginBottom: Spacing.small,
   },
 });
+
+const createUserMutation = gql`
+  mutation createUser($user: CreateUserInput) {
+    createUser(user: $user) {
+      user {
+        id
+        firstName
+        lastName
+        email
+        street1
+        street2
+        zip
+        phone
+      }
+    }
+  }
+`;
