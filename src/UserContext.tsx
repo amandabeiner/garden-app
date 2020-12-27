@@ -15,6 +15,7 @@ import { useIdToken } from './auth/useIdToken';
 type UserState = {
   currentUser: CurrentUser;
   setCurrentUser: (user: CurrentUser) => void;
+  userIdToken: string;
 };
 
 export const UserContext = createContext(null);
@@ -32,7 +33,10 @@ export const UserProvider: FunctionComponent = (props) => {
   });
 
   return (
-    <UserContext.Provider value={{ currentUser, setCurrentUser }} {...props} />
+    <UserContext.Provider
+      value={{ currentUser, setCurrentUser, userIdToken }}
+      {...props}
+    />
   );
 };
 
@@ -43,9 +47,9 @@ export const useUser = (): UserState => {
     throw new Error('useCity must be within an CityProvider');
   }
 
-  const { currentUser, setCurrentUser } = context;
+  const { currentUser, setCurrentUser, userIdToken } = context;
 
-  return { currentUser, setCurrentUser };
+  return { currentUser, setCurrentUser, userIdToken };
 };
 
 const currentUserFragment = gql`

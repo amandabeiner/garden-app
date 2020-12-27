@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import Config from 'react-native-config';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import {
   ApolloClient,
   InMemoryCache,
@@ -10,18 +9,9 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-import { Application } from './src/Application';
-import { Home } from './src/Home';
-import { Stacks } from './src/navigation/index';
-import { OnboardingStack } from './src/Onboarding/index';
 import { CityProvider } from './src/CityContext';
 import { UserProvider } from './src/UserContext';
-
-const Stack = createStackNavigator();
-
-const SCREEN_OPTIONS = {
-  headerShown: false,
-};
+import { Routes } from './Routes';
 
 const httpLink = createHttpLink({ uri: Config.GADGET_URL });
 const authLink = setContext((_, { headers }) => {
@@ -44,23 +34,7 @@ const App: FunctionComponent = () => {
       <ApolloProvider client={client}>
         <CityProvider>
           <UserProvider>
-            <Stack.Navigator initialRouteName={Stacks.OnboardingStack}>
-              <Stack.Screen
-                name={Stacks.OnboardingStack}
-                component={OnboardingStack}
-                options={{ ...SCREEN_OPTIONS }}
-              />
-              <Stack.Screen
-                name={Stacks.ApplicationStack}
-                component={Application}
-                options={{ ...SCREEN_OPTIONS }}
-              />
-              <Stack.Screen
-                name={Stacks.HomeStack}
-                component={Home}
-                options={{ ...SCREEN_OPTIONS }}
-              />
-            </Stack.Navigator>
+            <Routes />
           </UserProvider>
         </CityProvider>
       </ApolloProvider>

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Text, View, SafeAreaView, StyleSheet } from 'react-native';
-import { Stacks } from '../navigation/index';
+import { Stacks, ApplicationScreens } from '../navigation/index';
 import { Typography, Spacing, Buttons } from '../styles/index';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useCity } from '../CityContext';
@@ -17,7 +17,11 @@ export const CityDetails: FunctionComponent = () => {
       <View style={style.footerContainer}>
         <TouchableOpacity
           style={style.applyButton}
-          onPress={() => navigate(Stacks.ApplicationStack)}>
+          onPress={() =>
+            navigate(Stacks.ApplicationStack, {
+              screen: ApplicationScreens.Person,
+            })
+          }>
           <Text style={style.applyText}>Apply to {city.name}</Text>
         </TouchableOpacity>
       </View>

@@ -12,5 +12,5 @@ export const useIdToken = () => {
     getUserId();
   });
 
-  return userIdToken || '1';
+  return userIdToken;
 };

@@ -10,12 +10,16 @@ export const Dashboard: FunctionComponent = () => {
   useStatusBarEffect('light-content', Colors.primaryBlue);
   const [place, setPlace] = useState(0);
   const [total, setTotal] = useState(1);
+  const [loaded, setLoaded] = useState(false);
 
   const { currentUser } = useUser();
 
   useEffect(() => {
-    setPlace(500);
-    setTotal(1150);
+    setTimeout(() => {
+      setPlace(500);
+      setTotal(1150);
+      setLoaded(true);
+    }, 500);
   }, [currentUser]);
 
   const percentageComplete = (place / total) * 100;
@@ -55,11 +59,11 @@ export const Dashboard: FunctionComponent = () => {
             verticalAnchor="middle"
             x={100}
             y={100}
-            text={[
-              `${formatNumber(place)}`,
-              'out of',
-              `${formatNumber(total)}`,
-            ]}
+            text={
+              loaded
+                ? [`${formatNumber(place)}`, 'out of', `${formatNumber(total)}`]
+                : ''
+            }
             lineHeight={1.25}
             style={style.graphLabel}
           />

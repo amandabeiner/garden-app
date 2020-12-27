@@ -12,6 +12,7 @@ import {
   createUser as CreateUserData,
 } from './__generated__/createUser';
 import { Screens } from '../navigation';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export const SignUp: FunctionComponent = () => {
   const navigation = useNavigation();
@@ -27,7 +28,8 @@ export const SignUp: FunctionComponent = () => {
     CreateUserData,
     CreateUserVariables
   >(createUserMutation, {
-    onCompleted: ({ createUser: { user } }) => {
+    onCompleted: async ({ createUser: { user } }) => {
+      AsyncStorage.setItem('userIdToken', user.id);
       setCurrentUser(user);
     },
   });
@@ -36,7 +38,6 @@ export const SignUp: FunctionComponent = () => {
     try {
       const user = { ...personalInfo, password };
       await createUser({ variables: { user } });
-      debugger;
       navigation.navigate(Screens.Complete);
     } catch (e) {
       console.error(e);
