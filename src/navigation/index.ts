@@ -15,7 +15,9 @@ export type ApplicationScreen =
   | 'Person'
   | 'GardenPreferences'
   | 'TOS'
-  | 'Signature';
+  | 'Signature'
+  | 'SignUp'
+  | 'Complete';
 
 export const ApplicationScreens: {
   [key in ApplicationScreen]: ApplicationScreen;
@@ -25,6 +27,8 @@ export const ApplicationScreens: {
   GardenPreferences: 'GardenPreferences',
   TOS: 'TOS',
   Signature: 'Signature',
+  SignUp: 'SignUp',
+  Complete: 'Complete',
 };
 
 export type HomeScreen = 'Dashboard' | 'Profile';
@@ -35,11 +39,10 @@ export const HomeScreens: {
   Profile: 'Profile',
 };
 
-export type AuthScreen = 'SignIn' | 'SignUp';
+export type AuthScreen = 'SignIn';
 export const AuthScreens: {
   [key in AuthScreen]: AuthScreen;
 } = {
-  SignUp: 'SignUp',
   SignIn: 'SignIn',
 };
 

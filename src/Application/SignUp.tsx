@@ -5,21 +5,27 @@ import { gql, useMutation } from '@apollo/client';
 
 import { Label, Button } from '../common';
 import { Spacing, Forms, Typography } from '../styles/index';
-import { useUser } from '../UserContext';
 import { useApplication } from './ApplicationContext';
 import {
   createUserVariables as CreateUserVariables,
   createUser as CreateUserData,
 } from './__generated__/createUser';
+import {
+  createApplication as CreateApplicationType,
+  createApplicationVariables as CreateApplicationVariables,
+} from './__generated__/createApplication';
+import {
+  logInUserMutation as LogInUserType,
+  logInUserMutationVariables as LogInUserVariables,
+} from './__generated__/logInUserMutation';
 import { Screens } from '../navigation';
-import AsyncStorage from '@react-native-community/async-storage';
 
 export const SignUp: FunctionComponent = () => {
   const navigation = useNavigation();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const { setCurrentUser } = useUser();
-  const [{ personalInfo }] = useApplication();
+  console.log({ confirmPassword });
+  const [{ personalInfo, backgroundInfo }] = useApplication();
 
   const passwordInput = useRef<TextInput>();
   const confirmPasswordInput = useRef<TextInput>();
@@ -27,20 +33,43 @@ export const SignUp: FunctionComponent = () => {
   const [createUser, { loading }] = useMutation<
     CreateUserData,
     CreateUserVariables
-  >(createUserMutation, {
-    onCompleted: async ({ createUser: { user } }) => {
-      AsyncStorage.setItem('userIdToken', user.id);
-      setCurrentUser(user);
-    },
-  });
+  >(createUserMutation);
 
-  const submitForm = async () => {
+  const [createApplication] = useMutation<
+    CreateApplicationType,
+    CreateApplicationVariables
+  >(createApplicationMutation);
+
+  const [logInUser] = useMutation<LogInUserType, LogInUserVariables>(
+    logInUserMutation,
+  );
+
+  const submitRegistration = async () => {
     try {
       const user = { ...personalInfo, password };
-      await createUser({ variables: { user } });
+      const returnedUser = await createUser({ variables: { user } });
+      const {
+        gardenPreferences,
+        agreedToTOS,
+        signedAgreement,
+        ...applicationVariables
+      } = backgroundInfo;
+
+      await createApplication({
+        variables: {
+          application: {
+            ...applicationVariables,
+            user: { link: returnedUser.data.createUser.user.id },
+          },
+        },
+      });
+
+      await logInUser({
+        variables: { session: { email: personalInfo.email, password } },
+      });
       navigation.navigate(Screens.Complete);
     } catch (e) {
-      console.error(e);
+      console.log(e);
     }
   };
 
@@ -57,7 +86,7 @@ export const SignUp: FunctionComponent = () => {
       <TextInput
         secureTextEntry
         textContentType="newPassword"
-        autoCompleteType="password"
+        autoCompleteType="off"
         style={style.input}
         value={password}
         onChangeText={setPassword}
@@ -68,13 +97,17 @@ export const SignUp: FunctionComponent = () => {
       <TextInput
         secureTextEntry
         textContentType="newPassword"
-        autoCompleteType="password"
+        autoCompleteType="off"
         style={style.input}
         value={confirmPassword}
         onChangeText={setConfirmPassword}
         ref={confirmPasswordInput}
       />
-      <Button label="Sign up" disabled={disableSubmit} onPress={submitForm} />
+      <Button
+        label="Sign up"
+        disabled={disableSubmit}
+        onPress={submitRegistration}
+      />
     </SafeAreaView>
   );
 };
@@ -106,6 +139,29 @@ const createUserMutation = gql`
         street2
         zip
         phone
+      }
+    }
+  }
+`;
+
+const createApplicationMutation = gql`
+  mutation createApplication($application: CreateApplicationInput) {
+    createApplication(application: $application) {
+      application {
+        id
+      }
+    }
+  }
+`;
+
+const logInUserMutation = gql`
+  mutation logInUserMutation($session: LogInViaEmailSessionInput!) {
+    currentSession {
+      logInViaEmail(session: $session) {
+        session {
+          id
+        }
+        success
       }
     }
   }

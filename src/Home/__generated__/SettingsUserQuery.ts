@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: userQuery
+// GraphQL query operation: SettingsUserQuery
 // ====================================================
 
-export interface userQuery_user {
+export interface SettingsUserQuery_currentSession_user {
   __typename: "User";
   /**
    * The globally unique, unchanging identifier for this record. Assigned and managed by Gadget.
@@ -22,10 +22,15 @@ export interface userQuery_user {
   phone: string | null;
 }
 
-export interface userQuery {
-  user: userQuery_user | null;
+export interface SettingsUserQuery_currentSession {
+  __typename: "Session";
+  /**
+   * The globally unique, unchanging identifier for this record. Assigned and managed by Gadget.
+   */
+  id: any;
+  user: SettingsUserQuery_currentSession_user | null;
 }
 
-export interface userQueryVariables {
-  id: any;
+export interface SettingsUserQuery {
+  currentSession: SettingsUserQuery_currentSession | null;
 }

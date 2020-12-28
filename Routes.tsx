@@ -4,9 +4,9 @@ import { Application } from './src/Application';
 import { Home } from './src/Home';
 import { Stacks, Screens } from './src/navigation/index';
 import { OnboardingStack } from './src/Onboarding/index';
-import { useUser } from './src/UserContext';
 import { SignIn } from './src/Home/SignIn';
 import { SignUp } from './src/Application/SignUp';
+import { useQuery, gql } from '@apollo/client';
 
 const Stack = createStackNavigator();
 const SCREEN_OPTIONS = {
@@ -14,11 +14,13 @@ const SCREEN_OPTIONS = {
 };
 
 export const Routes: FunctionComponent = () => {
-  const { userIdToken } = useUser();
+  const { data } = useQuery(sessionUserIdQuery);
+  const sessionUserId = data?.currentSession?.user?.id;
+  console.log({ sessionUserId });
 
   return (
     <>
-      {userIdToken ? (
+      {sessionUserId ? (
         <Stack.Navigator initialRouteName={Screens.Dashboard}>
           <Stack.Screen
             name={Stacks.HomeStack}
@@ -53,3 +55,14 @@ export const Routes: FunctionComponent = () => {
     </>
   );
 };
+
+const sessionUserIdQuery = gql`
+  query sessionUserIdQuery {
+    currentSession {
+      id
+      user {
+        id
+      }
+    }
+  }
+`;

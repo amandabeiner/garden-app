@@ -3,7 +3,6 @@ import { View, StyleSheet, SafeAreaView } from 'react-native';
 import { VictoryPie, VictoryLabel } from 'victory-native';
 import { Svg } from 'react-native-svg';
 import { Colors, Typography, Spacing } from '../styles/index';
-import { useUser } from '../UserContext';
 import { useStatusBarEffect } from '../navigation/useStatusBarEffect';
 
 export const Dashboard: FunctionComponent = () => {
@@ -12,15 +11,13 @@ export const Dashboard: FunctionComponent = () => {
   const [total, setTotal] = useState(1);
   const [loaded, setLoaded] = useState(false);
 
-  const { currentUser } = useUser();
-
   useEffect(() => {
     setTimeout(() => {
       setPlace(500);
       setTotal(1150);
       setLoaded(true);
     }, 500);
-  }, [currentUser]);
+  }, []);
 
   const percentageComplete = (place / total) * 100;
 

@@ -44,6 +44,8 @@ export const Application: FunctionComponent = () => {
           component={Signature}
           options={{ headerRight: () => HeaderRight(5, 5) }}
         />
+        <Stack.Screen name={ApplicationScreens.SignUp} component={SignUp} />
+        <Stack.Screen name={ApplicationScreens.Complete} component={Complete} />
       </Stack.Navigator>
     </ApplicationProvider>
   );

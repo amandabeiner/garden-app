@@ -11,18 +11,23 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
-import { gql } from '@apollo/client';
+import { gql, useQuery, useMutation } from '@apollo/client';
 
 import { HomeScreens } from '../navigation';
 import { useStatusBarEffect } from '../navigation/useStatusBarEffect';
 import { CloseButton, Label, Button } from '../common/index';
 import { Typography, Spacing, Forms, Colors } from '../styles/index';
-
-import { UserFields, schema, types } from '../user/index';
+import { SettingsUserQuery as SettingsUserQueryType } from './__generated__/SettingsUserQuery';
+import {
+  SettingsUpdateUserMutation as UpdateUserMutationType,
+  SettingsUpdateUserMutationVariables as UpdateUserMutationVariables,
+  SettingsUpdateUserMutation_updateUser_user as User,
+} from './__generated__/SettingsUpdateUserMutation';
+import { SettingsLogOutMutation as LogOutType } from './__generated__/SettingsLogOutMutation';
+import { UpdateUserInput } from '../__generated__/globalTypes';
+import { UserFields, schema } from '../user/index';
 
 import { fieldHasError } from '../utils';
-import { useUser } from '../UserContext';
-import { CurrentUser } from '../__generated__/CurrentUser';
 
 export const Settings: FunctionComponent = () => {
   useStatusBarEffect('dark-content', Colors.white);
@@ -32,15 +37,33 @@ export const Settings: FunctionComponent = () => {
   const fourthInput = useRef<TextInput>();
   const fifthInput = useRef<TextInput>();
   const sixthInput = useRef<TextInput>();
-  const { currentUser } = useUser();
 
-  const updateUser = (values: Partial<CurrentUser>) => {
-    // updateCurrentUser(values);
-    navigation.navigate(HomeScreens.Dashboard);
-  };
+  const { data, loading } = useQuery<SettingsUserQueryType>(settingsUserQuery);
+  const [updateUserMutation, { loading: updating }] = useMutation<
+    UpdateUserMutationType,
+    UpdateUserMutationVariables
+  >(updateCurrentUserMutation);
+
+  const [logOutUser] = useMutation<LogOutType>(logOutMutation);
+
+  if (!data || loading) return <></>;
+
+  const { user } = data?.currentSession;
 
   const onPressClose = () => {
     navigation.navigate(HomeScreens.Dashboard);
+  };
+
+  const updateUser = async (values: Partial<UpdateUserInput>) => {
+    try {
+      const { id } = user;
+      await updateUserMutation({
+        variables: { id, user: values },
+      });
+      navigation.navigate(HomeScreens.Dashboard);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const {
@@ -52,6 +75,8 @@ export const Settings: FunctionComponent = () => {
     PHONE,
     EMAIL,
   } = UserFields;
+
+  const { id, __typename, ...initialValues } = user;
   return (
     <SafeAreaView style={style.container}>
       <KeyboardAvoidingView
@@ -62,8 +87,8 @@ export const Settings: FunctionComponent = () => {
         <Text style={style.header}>Your Information</Text>
         <ScrollView>
           <Formik
-            initialValues={currentUser}
-            onSubmit={updateUser}
+            initialValues={initialValues}
+            onSubmit={(values) => updateUser(values)}
             validateOnBlur
             validationSchema={schema}>
             {({
@@ -76,8 +101,8 @@ export const Settings: FunctionComponent = () => {
               isValid,
               dirty,
             }) => {
-              const showError = (name: keyof types.User): boolean => {
-                return fieldHasError<types.User>(name, errors, touched);
+              const showError = (name: keyof User): boolean => {
+                return fieldHasError<User>(name, errors, touched);
               };
               return (
                 <>
@@ -237,7 +262,12 @@ export const Settings: FunctionComponent = () => {
                     <Button
                       label="Save"
                       onPress={handleSubmit}
-                      disabled={!isValid || !dirty}
+                      disabled={!isValid || !dirty || loading || updating}
+                    />
+                    <Button
+                      label="Log out"
+                      variant="text"
+                      onPress={logOutUser}
                     />
                   </View>
                 </>
@@ -261,6 +291,48 @@ export const HomeSettingsFragment = gql`
     email
     phone
   }
+`;
+
+const settingsUserQuery = gql`
+  query SettingsUserQuery {
+    currentSession {
+      id
+      user {
+        id
+        ...HomeSettingsFragment
+      }
+    }
+  }
+
+  ${HomeSettingsFragment}
+`;
+
+const updateCurrentUserMutation = gql`
+  mutation SettingsUpdateUserMutation($id: GadgetID!, $user: UpdateUserInput) {
+    updateUser(id: $id, user: $user) {
+      user {
+        id
+        ...HomeSettingsFragment
+      }
+    }
+  }
+  ${HomeSettingsFragment}
+`;
+
+const logOutMutation = gql`
+  mutation SettingsLogOutMutation {
+    currentSession {
+      logOut {
+        session {
+          user {
+            id
+            ...HomeSettingsFragment
+          }
+        }
+      }
+    }
+  }
+  ${HomeSettingsFragment}
 `;
 
 const style = StyleSheet.create({
@@ -312,5 +384,6 @@ const style = StyleSheet.create({
   },
   footer: {
     marginTop: Spacing.medium,
+    alignItems: 'center',
   },
 });

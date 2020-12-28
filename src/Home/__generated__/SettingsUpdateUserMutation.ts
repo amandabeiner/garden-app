@@ -3,11 +3,13 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { UpdateUserInput } from "./../../__generated__/globalTypes";
+
 // ====================================================
-// GraphQL fragment: CurrentUser
+// GraphQL mutation operation: SettingsUpdateUserMutation
 // ====================================================
 
-export interface CurrentUser {
+export interface SettingsUpdateUserMutation_updateUser_user {
   __typename: "User";
   /**
    * The globally unique, unchanging identifier for this record. Assigned and managed by Gadget.
@@ -20,4 +22,18 @@ export interface CurrentUser {
   zip: string | null;
   email: string | null;
   phone: string | null;
+}
+
+export interface SettingsUpdateUserMutation_updateUser {
+  __typename: "UpdateUserResult";
+  user: SettingsUpdateUserMutation_updateUser_user | null;
+}
+
+export interface SettingsUpdateUserMutation {
+  updateUser: SettingsUpdateUserMutation_updateUser | null;
+}
+
+export interface SettingsUpdateUserMutationVariables {
+  id: any;
+  user?: UpdateUserInput | null;
 }

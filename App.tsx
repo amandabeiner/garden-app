@@ -33,9 +33,7 @@ const App: FunctionComponent = () => {
     <NavigationContainer>
       <ApolloProvider client={client}>
         <CityProvider>
-          <UserProvider>
-            <Routes />
-          </UserProvider>
+          <Routes />
         </CityProvider>
       </ApolloProvider>
     </NavigationContainer>

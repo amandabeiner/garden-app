@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { SvgXml } from 'react-native-svg';
 import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { OnboardingScreens, Stacks, HomeScreens } from '../navigation/index';
+import { OnboardingScreens, Screens } from '../navigation/index';
 import { Button } from '../common/Button';
 
 import { Colors, Spacing, Typography } from '../styles/index';
@@ -30,11 +30,7 @@ export const Welcome: FunctionComponent = () => {
         />
         <View style={style.signIn}>
           <Button
-            onPress={() =>
-              navigation.navigate(Stacks.HomeStack, {
-                screen: HomeScreens.SignIn,
-              })
-            }
+            onPress={() => navigation.navigate(Screens.SignIn)}
             label="Sign in"
             variant="text"
           />
